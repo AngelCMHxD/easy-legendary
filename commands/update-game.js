@@ -33,28 +33,15 @@ module.exports = async () => {
 	]).then((a) => { return a.confirm })
 
 	if (confirm) {
-		let elevated = true;
-		try {
-			await cp.execSync("net session", { stdio: "pipe" })
-		} catch (e) {
-			elevated = false
-		}
-
+		// exit if folder is protected and is not elevated
+		require("../utils/elevationCheck.js")();
+	
 		let gameInfo = await cp.execSync(`legendary info "${game}"`, { stdio: "pipe" }).toString().replaceAll("\\", "/").split("\n")
 		let diskPath;
 		gameInfo.forEach(line => {
 			if (line.startsWith("- Install path: ")) diskPath = line.slice("- Install path: ".length, -1)
 		})
-
-		if (!elevated &&
-		    (diskPath.toLowerCase().startsWith("C:/program files")
-			|| diskPath.toLowerCase().startsWith("C:/program files (x86)")
-			|| diskPath.toLowerCase().startsWith("C:/windows")) {
-
-			console.log(`\x1b[31m[Error]\x1b[0m`, `You are trying to update the game "${game}" located in ${diskPath}, which is a protected folder, in order to update a game located there you should have started the tool as administrator! (or in a administrator cmd). Exiting in 20 seconds...`)
-			await delay(20000)
-			process.exit()
-		}
+	
 		console.log(`Updating "${game}" (${diskPath})...`)
 		await cp.execSync(`legendary update "${game}" -y`)
 	}
