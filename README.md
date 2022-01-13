@@ -1,15 +1,16 @@
 
 # Easy Legendary!
 
-This tool execute [legendary-gl](https://github.com/derrod/legendary)'s commands for you in a simple interfece, you want to replace Epic Games Launcher but don't like executing commands? This tool is for you!
+This tool executes [legendary-gl](https://github.com/derrod/legendary) commands for you through a simple interface.
+Do you want to replace Epic Games Launcher, but don't like executing commands? This tool is for you!
 
-  
+
 
 ## Installation
 
 ### Before you start
 
-This tool is made **for Windows 8.1  and up**, no win7/linux/wine support at the moment!
+This tool is made for **Windows 8.1 and up**, no Win7/Linux/Wine support at the moment!
 
 ### Pre-requisites
 
