@@ -82,7 +82,11 @@ module.exports = async () => {
 	if (confirm) {
 		console.log(`Installing ${game}...`)
 		console.log(`The installation will occur on a separated cmd window in order to prevent errors!`)
-		if (diskPath.startsWith("C:/Program Files") || diskPath.startsWith("C:/Program Files (x86)")) console.log(`\x1b[41m[WARNING]\x1b[0m You are trying to install the game in ${diskPath}, which is a protected folder, in order to install a game there you should have started the tool as administrator! (In a administrator cmd)`)
+		// here it should check if it was started as administrator
+		// before sending the warning
+		if (diskPath.startsWith("C:/Program Files")
+		    || diskPath.startsWith("C:/Program Files (x86)"))
+			console.log(`\x1b[41m[WARNING]\x1b[0m You are trying to install the game in ${diskPath}, which is a protected folder, in order to install a game there you should have started the tool as administrator! (In an administrator cmd)`)
 		cp.execSync(`start legendary install "${game}" --base-path "${diskPath}" -y`, { encoding: "utf-8", stdio: "inherit" })
 	}
 	else console.log("Installation canceled!")
