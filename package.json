@@ -1,0 +1,26 @@
+{
+	"name": "easy-legendary",
+	"version": "0.1.0",
+	"description": "easy-legendary is a tool that execute legendary-gl commands for you, goodbye to executing commands!",
+	"main": "index.js",
+	"scripts": {
+		"start": "node .",
+		"build": "npx pkg ."
+	},
+	"author": "AngelCMHxD",
+	"license": "MIT",
+	"bin": "index.js",
+	"pkg": {
+		"targets": [
+			"node16-win-x64"
+		],
+		"scripts": "commands/**/*.js",
+		"outputPath": "dist"
+	},
+	"dependencies": {
+		"fuzzy": "^0.1.3",
+		"inquirer": "^8.2.0",
+		"inquirer-autocomplete-prompt": "^1.4.0",
+		"pkg": "^5.5.1"
+	}
+}
