@@ -1,11 +1,34 @@
+
 # Easy Legendary!
+
 This tool execute [legendary-gl](https://github.com/derrod/legendary)'s commands for you in a simple interfece, you want to replace Epic Games Launcher but don't like executing commands? This tool is for you!
 
+  
+
 ## Installation
+
 ### Before you start
-This tool is made **for** Windows, no linux/wine support at the moment!
+
+This tool is made **for Windows 8.1  and up**, no win7/linux/wine support at the moment!
+
 ### Pre-requisites
+
 Before downloading this tool you only need `Python 3.8+` as it will auto-install and update [legendary-gl](https://github.com/derrod/legendary) for you!
+
 ### How to run/install
+
 #### Easy way (Using pre-compiled binaries)
-Download the latest .exe available in [releases](https://github.com/angelcmhxd/easy-legendary/releases/latest) and put it on C:\\Users\\<Your Windows Username>
+
+1. Download the latest .exe available in [releases](https://github.com/angelcmhxd/easy-legendary/releases/latest)
+2. Open it as administrator and that's it! Enjoy!
+#### Complex way (Compiling it by yourself)
+Note: You also need [node](https://nodejs.org/) to install the tool this way. 
+1. Clone this repository.
+2. Open cmd and cd to the folder where you cloned it.
+3. Run `npm install`
+4. Here you could just do `node .`  or `npm run start` and the program will run just fine, or you could compile it to an exe. If you want to compile it to an exe, follow the steps 5 and 6.
+5. Run `npm run build` and wait ()
+6. The resulting .exe should be on /path/to/clone/dist/easy-legendary.exe, you just need to open it as administrator and enjoy!
+
+## Known Bugs
+None
