@@ -5,7 +5,7 @@ inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 module.exports = async () => {
 
-	let gamesOutput = await cp.execSync("legendary list-installed", {stdio: 'pipe'}).toString().split("\n")
+	let gamesOutput = await cp.execSync("legendary list-installed", { stdio: 'pipe' }).toString().split("\n")
 	gamesOutput.shift()
 	gamesOutput.shift()
 	gamesOutput.pop()
@@ -26,7 +26,7 @@ module.exports = async () => {
 			const results = fuzzyResult.map(function (rs) {
 				return rs.original;
 			});
-	
+
 			results.splice(5, 0, new inquirer.Separator());
 			results.push(new inquirer.Separator());
 			resolve(results);
@@ -40,11 +40,13 @@ module.exports = async () => {
 			name: "game",
 			message: "Type the name of the game you want to start:",
 			emptyText: 'Nothing here!',
+			pageSize: 10,
+			loop: false,
 			validate: function (val) {
 				return val ? true : 'Select a valid game!';
 			}
 		}
-	]).then((a) => {return a.game})
+	]).then((a) => { return a.game })
 
 	console.log("Launching game and exiting...")
 	cp.execSync(`legendary launch "${game}"`)

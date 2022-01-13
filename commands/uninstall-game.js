@@ -5,7 +5,7 @@ inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 module.exports = async () => {
 
-	let gamesOutput = await cp.execSync("legendary list-games", { stdio: 'pipe' }).toString().split("\n")
+	let gamesOutput = await cp.execSync("legendary list-installed", { stdio: 'pipe' }).toString().split("\n")
 	gamesOutput.shift()
 	gamesOutput.shift()
 	gamesOutput.pop()
@@ -38,7 +38,7 @@ module.exports = async () => {
 			type: "autocomplete",
 			source: searchGames,
 			name: "game",
-			message: "Type the name of the game you want to import:",
+			message: "Type the name of the game you want to uninstall:",
 			emptyText: 'Nothing here!',
 			pageSize: 10,
 			loop: false,
@@ -47,34 +47,16 @@ module.exports = async () => {
 			}
 		}
 	]).then((a) => { return a.game })
-
-	let diskPath = await inquirer.prompt([
-		{
-			type: "input",
-			name: "diskPath",
-			message: `Where is the game you want to import?`,
-			validate: (val) => {
-				if (val) {
-					let regex = /^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm
-					let matchRegex = regex.test(val.replaceAll("/", "\\"))
-					if (matchRegex) return true
-					else return "Type a valid path"
-				} else return "Type a valid path"
-			}
-		}
-	]).then((a) => { return a.diskPath })
-	diskPath = diskPath.replaceAll("\\", "/").replaceAll("\\\\", "/")
-	diskPath = (diskPath.split(":")[0].toUpperCase() + ":" + diskPath.split(":")[1])
 	const confirm = await inquirer.prompt([
 		{
 			type: "confirm",
 			name: "confirm",
-			message: `Are you sure that you want to import the game "${game}", located in "${diskPath}"?`
+			message: `Are you sure that you want to uninstall "${game}"?`
 		}
 	]).then((a) => { return a.confirm })
+
 	if (confirm) {
-		console.log(`Importing "${game}"...`)
-		await cp.execSync(`legendary import-game "${game}" "${diskPath}" --with-dlcs`, { stdio: "inherit" })
-	}
-	else console.log("Operation aborted!")
+		console.log("Uninstalling game...")
+		await cp.execSync(`legendary uninstall "${game}" -y`)
+	} else console.log("Installation canceled!")
 }

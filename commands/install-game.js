@@ -5,7 +5,7 @@ inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 module.exports = async () => {
 
-	let gamesOutput = await cp.execSync("legendary list-games", {stdio: 'pipe'}).toString().split("\n")
+	let gamesOutput = await cp.execSync("legendary list-games", { stdio: 'pipe' }).toString().split("\n")
 	gamesOutput.shift()
 	gamesOutput.shift()
 	gamesOutput.pop()
@@ -26,7 +26,7 @@ module.exports = async () => {
 			const results = fuzzyResult.map(function (rs) {
 				return rs.original;
 			});
-	
+
 			results.splice(5, 0, new inquirer.Separator());
 			results.push(new inquirer.Separator());
 			resolve(results);
@@ -40,11 +40,13 @@ module.exports = async () => {
 			name: "game",
 			message: "Type the name of the game you want to install:",
 			emptyText: 'Nothing here!',
+			pageSize: 10,
+			loop: false,
 			validate: function (val) {
 				return val ? true : 'Select a valid game!';
 			}
 		}
-	]).then((a) => {return a.game})
+	]).then((a) => { return a.game })
 
 	let diskPath = await inquirer.prompt([
 		{
@@ -64,7 +66,7 @@ module.exports = async () => {
 				} else return "Type a valid path"
 			}
 		}
-	]).then((a) => {return a.diskPath})
+	]).then((a) => { return a.diskPath })
 	diskPath = diskPath.replaceAll("\\", "/").replaceAll("\\\\", "/")
 	diskPath = (diskPath.split(":")[0].toUpperCase() + ":" + diskPath.split(":")[1])
 	let diskPathwGame = diskPath + "/" + game
@@ -75,7 +77,7 @@ module.exports = async () => {
 			name: "confirm",
 			message: `Are you sure that you want to install "${game}" in "${diskPathwGame}"?`
 		}
-	]).then((a) => {return a.confirm})
+	]).then((a) => { return a.confirm })
 
 	if (confirm) {
 		console.log(`Installing ${game}...`)
