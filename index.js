@@ -12,7 +12,16 @@ async function loop() {
 			message: "Select what do you want to do",
 			pageSize: 20,
 			loop: false,
-			choices: ["List owned games.", "Start a game...", "List installed/imported games.", "Install a game...", "Import a installed game...", "Uninstall a game...", "Sync games with Epic Games Launcher...", "Exit."]
+			choices: [
+				"List owned games.",
+				"Start a game...",
+				"List installed/imported games.",
+				"Install a game...",
+				"Import a installed game...",
+				"Uninstall a game...",
+				"Sync games with Epic Games Launcher...",
+				"Exit."
+			]
 		}
 	])
 
