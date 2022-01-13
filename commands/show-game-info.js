@@ -5,14 +5,15 @@ inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 module.exports = async () => {
 
-	const searchGames = await require("../utils/searchInstalledGames.js")()
+	const searchGames = await require("../utils/searchOwnedGames.js")()
 
+	console.log("Due to limitations, you only can see info of games that you own!")
 	const game = await inquirer.prompt([
 		{
 			type: "autocomplete",
 			source: searchGames,
 			name: "game",
-			message: "Type the name of the game you want to uninstall:",
+			message: "Type the name of the game you want to see info:",
 			emptyText: 'Nothing here!',
 			pageSize: 10,
 			loop: false,
@@ -24,18 +25,6 @@ module.exports = async () => {
 
 	if (game === "Select this item to exit...") return;
 
-	const confirm = await inquirer.prompt([
-		{
-			type: "confirm",
-			name: "confirm",
-			message: `Are you sure that you want to uninstall "${game}"?`,
-			default: false
-		}
-	]).then((a) => { return a.confirm })
-
-	if (confirm) {
-		console.log(`Uninstalling ${game}...`)
-		await cp.execSync(`legendary uninstall "${game}" -y`, { stdio: "pipe" })
-		console.log("Game uninstalled!")
-	} else console.log("Operation canceled!")
+	const info = await cp.execSync(`legendary info "${game}"`, { stdio: "pipe" })
+	console.log(info.toString())
 }

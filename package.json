@@ -14,7 +14,10 @@
 		"targets": [
 			"node16-win-x64"
 		],
-		"scripts": "commands/**/*.js",
+		"scripts": [
+			"commands/**/*.js",
+			"utils/**/*.js"
+		],
 		"outputPath": "dist"
 	},
 	"dependencies": {

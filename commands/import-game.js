@@ -5,33 +5,7 @@ inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 module.exports = async () => {
 
-	let gamesOutput = await cp.execSync("legendary list-games", { stdio: 'pipe' }).toString().split("\n")
-	gamesOutput.shift()
-	gamesOutput.shift()
-	gamesOutput.pop()
-	gamesOutput.pop()
-	gamesOutput.pop()
-	let games = []
-	await gamesOutput.forEach(async (game) => {
-		if (game.startsWith("  +") || game.startsWith("  -")) return
-		game = game.slice(3)
-		if (game === undefined) return
-		game = game.split(" (App name: ")[0]
-		games.push(game)
-	})
-	function searchGames(answers, input) {
-		input = input || '';
-		return new Promise(function (resolve) {
-			var fuzzyResult = fuzzy.filter(input, games);
-			const results = fuzzyResult.map(function (rs) {
-				return rs.original;
-			});
-
-			results.splice(5, 0, new inquirer.Separator());
-			results.push(new inquirer.Separator());
-			resolve(results);
-		});
-	}
+	const searchGames = await require("../utils/searchOwnedGames.js")()
 
 	const game = await inquirer.prompt([
 		{
@@ -47,6 +21,8 @@ module.exports = async () => {
 			}
 		}
 	]).then((a) => { return a.game })
+
+	if (game === "Select this item to exit...") return;
 
 	let diskPath = await inquirer.prompt([
 		{
