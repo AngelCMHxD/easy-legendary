@@ -1,7 +1,7 @@
 
 # Easy Legendary!
 
-This tool executes [legendary-gl](https://github.com/derrod/legendary) commands for you through a simple interface.
+This tool executes [legendary-gl](https://github.com/derrod/legendary) commands for you through a simple interface.\
 Do you want to replace Epic Games Launcher, but don't like executing commands? This tool is for you!
 
 
