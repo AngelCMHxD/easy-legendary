@@ -34,7 +34,7 @@ module.exports = async () => {
 
 	if (confirm) {
 		// exit if folder is protected and is not elevated
-		require("../utils/elevationCheck.js")();
+		require("../utils/elevationCheck.js")(diskPath, game);
 	
 		let gameInfo = await cp.execSync(`legendary info "${game}"`, { stdio: "pipe" }).toString().replaceAll("\\", "/").split("\n")
 		let diskPath;
