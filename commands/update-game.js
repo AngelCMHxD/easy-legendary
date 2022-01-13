@@ -33,17 +33,18 @@ module.exports = async () => {
 	]).then((a) => { return a.confirm })
 
 	if (confirm) {
-		// exit if folder is protected and is not elevated
-		require("../utils/elevationCheck.js")(diskPath, game);
-	
+
 		let gameInfo = await cp.execSync(`legendary info "${game}"`, { stdio: "pipe" }).toString().replaceAll("\\", "/").split("\n")
 		let diskPath;
 		gameInfo.forEach(line => {
 			if (line.startsWith("- Install path: ")) diskPath = line.slice("- Install path: ".length, -1)
 		})
-	
+
+		// exit if folder is protected and is not elevated
+		require("../utils/elevationCheck.js")(diskPath, game);
+
 		console.log(`Updating "${game}" (${diskPath})...`)
-		await cp.execSync(`legendary update "${game}" -y`)
+		await cp.execSync(`legendary update "${game}" -y`, { stdio: "inherit" })
 	}
 	else console.log("Update canceled!")
 }
