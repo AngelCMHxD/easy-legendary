@@ -57,36 +57,18 @@ module.exports = async () => {
 
 	if (confirm) {
 		console.log(`Moving game "${game}" to "${diskPath}"...`)
-		let elevated = true;
-		try {
-			await cp.execSync("net session", { stdio: "pipe" })
-		} catch (e) {
-			elevated = false
-		}
+		
+		// exit if folder is protected and is not elevated
+		require("../utils/elevationCheck.js")(diskPath, game);
 
 		let gameInfo = await cp.execSync(`legendary info "${game}"`, { stdio: "pipe" }).toString().replaceAll("\\", "/").split("\n")
 		let initialDiskPath;
 		gameInfo.forEach(line => {
 			if (line.startsWith("- Install path: ")) initialDiskPath = line.slice("- Install path: ".length, -1)
 		})
-
-		if (diskPath.toLowerCase().startsWith("C:/program files") && !elevated
-			|| diskPath.toLowerCase().startsWith("C:/program files (x86)") && !elevated
-			|| diskPath.toLowerCase().startsWith("C:/windows") && !elevated) {
-
-			console.log(`\x1b[31m[Error]\x1b[0m`, `You are trying to move the game to ${diskPath}, which is a protected folder, in order to move this game to that folder you should have started the tool as administrator! (or in a administrator cmd). Exiting in 20 seconds...`)
-			await delay(20000)
-			process.exit()
-		}
-
-		if (initialDiskPath.toLowerCase().startsWith("C:/program files") && !elevated
-			|| initialDiskPath.toLowerCase().startsWith("C:/program files (x86)") && !elevated
-			|| initialDiskPath.toLowerCase().startsWith("C:/windows") && !elevated) {
-
-			console.log(`\x1b[31m[Error]\x1b[0m`, `You are trying to move the game "${game}" but is located at ${diskPath}, which is a protected folder, in order to move this game to another folder you should have started the tool as administrator! (or in a administrator cmd). Exiting in 20 seconds...`)
-			await delay(20000)
-			process.exit()
-		}
+		
+		// exit if folder is protected and is not elevated
+		require("../utils/elevationCheck.js")(initialDiskPath, game);
 
 		await cp.execSync(`legendary move "${game}" "${diskPath}" -y`, { encoding: "utf-8", stdio: "inherit" })
 	}

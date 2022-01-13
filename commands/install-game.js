@@ -56,24 +56,11 @@ module.exports = async () => {
 	]).then((a) => { return a.confirm })
 
 	if (confirm) {
+		// exit if folder is protected and is not elevated
+		require("../utils/elevationCheck.js")(diskPath, game);
+		
 		console.log(`Installing ${game}...`)
 		console.log(`The installation will occur on a separated cmd window in order to prevent errors!`)
-		let elevated = true;
-		try {
-			await cp.execSync("net session", { stdio: "pipe" })
-		} catch (e) {
-			elevated = false
-		}
-
-		if (!elevated &&
-		    (diskPath.toLowerCase().startsWith("C:/program files")
-			|| diskPath.toLowerCase().startsWith("C:/program files (x86)")
-			|| diskPath.toLowerCase().startsWith("C:/windows"))) {
-
-			console.log(`\x1b[31m[Error]\x1b[0m`, `You are trying to install the game in ${diskPath}, which is a protected folder, in order to install a game there you should have started the tool as administrator! (or in a administrator cmd). Exiting in 20 seconds...`)
-			await delay(20000)
-			process.exit()
-		}
 
 		cp.execSync(`start legendary install "${game}" --base-path "${diskPath}" -y`, { encoding: "utf-8", stdio: "inherit" })
 	}
