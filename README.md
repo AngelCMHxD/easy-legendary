@@ -32,4 +32,4 @@ Note: You also need [node](https://nodejs.org/) to install the tool this way.
 6. The resulting .exe should be on /path/to/clone/dist/easy-legendary.exe, you just need to open it as administrator and enjoy!
 
 ## Known Bugs
-None
+- Install, import a game and show info about a game options are closing the tool, I'm investigating the problem and it will be fixed in a new release!
