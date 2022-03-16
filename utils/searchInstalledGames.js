@@ -11,7 +11,11 @@ module.exports = async () => {
 	gamesOutput.pop()
 	let games = []
 	await gamesOutput.forEach(async (game) => {
-		if (game.startsWith("  +") || game.startsWith("  -")) return
+		if (game.startsWith("  +") || game.startsWith("  -")) return;
+		if (game.startsWith("  !")) {
+			games.pop()
+			return;
+		}
 		game = game.slice(3)
 		if (game === undefined) return
 		game = game.split(" (App name: ")[0]
