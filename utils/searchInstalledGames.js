@@ -3,7 +3,7 @@ const inquirer = require("inquirer")
 const fuzzy = require("fuzzy")
 module.exports = async () => {
 
-	let gamesOutput = await cp.execSync("legendary list-installed", { stdio: 'pipe' }).toString().split("\n")
+	let gamesOutput = await cp.execSync("legendary list-installed", { stdio: 'pipe' }).toString().replaceAll(/[^\x00-\x7F]/g, "").split("\n")
 	gamesOutput.shift()
 	gamesOutput.shift()
 	gamesOutput.pop()
