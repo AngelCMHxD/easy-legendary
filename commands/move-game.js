@@ -1,6 +1,5 @@
 const cp = require("child_process")
 const inquirer = require("inquirer")
-const fuzzy = require("fuzzy")
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 module.exports = async () => {
