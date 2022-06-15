@@ -16,6 +16,7 @@ const commands = {
 	"sync-with-egl": "Sync games with Epic Games Launcher...",
 	"verify-game-files": "Verify a game's files...",
 	"move-game": "Move a game to another folder...",
+	"create-shortcut": "Create a shortcut...",
 	"clear-cache": "Clear cache...",
 	"exit": "Exit"
 }
