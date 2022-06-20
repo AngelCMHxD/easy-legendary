@@ -24,12 +24,16 @@ const commands = {
 function searchCommands(answers, input) {
 	input = input || '';
 	return new Promise(function (resolve) {
-		var fuzzyResult = fuzzy.filter(input, Object.values(commands));
+		const cmds = [];
+		Object.values(commands).forEach(cmd => {
+			cmds.push(cmd);
+		});
+		var fuzzyResult = fuzzy.filter(input, cmds);
 		const results = fuzzyResult.map(function (rs) {
 			return rs.original;
 		});
-
-		results.splice(Object.values(commands).length - 1, 0, new inquirer.Separator());
+		
+		results.splice(cmds.length - 1, 0, new inquirer.Separator());
 		results.push(new inquirer.Separator());
 		results.unshift(new inquirer.Separator());
 		resolve(results);
@@ -68,6 +72,9 @@ async function loop() {
 }
 
 (async () => {
+	console.log(`\x1b[32m\x1b[1m -- Welcome to Easy Legendary --\x1b[0m`)
+	if (!require.main.path.endsWith("\\snapshot\\legendary")) console.log("\x1b[36m[Info]\x1b[0m Uncompiled version of Easy Legendary detected. This build may be unstable.")
+
 	await setup()
 	try {
 		await cp.execSync("legendary auth", { stdio: 'pipe' })
@@ -80,8 +87,28 @@ async function loop() {
 				type: "input",
 				message: '2. Copy and paste the result text here: '
 			}
-		]).then((a) => { return (JSON.parse(a.sidJson)).sid })
+		]).then(async (a) => {
+			try {
+				let sid = JSON.parse(a.sidJson).sid
+				if (sid) return sid
+				else throw new Error("Invalid JSON")
+			} catch (e) {
+				if (e.toString().startsWith("SyntaxError")) return a.sidJson;
+				if (e.toString().startsWith("Error: Invalid JSON")) {
+					console.log("\x1b[31m[Error]\x1b[0m JSON does not contains account SID.")
+					await delay(3000)
+					process.exit(1);
+				};
+			}
+		});
 		await cp.execSync(`legendary auth --sid "${sid}"`, { stdio: 'pipe' })
 	}
 	await loop()
 })()
+
+process.on("uncaughtException", async (err) => {
+	console.log("\x1b[31m[Error]\x1b[0m " + err.toString())
+	console.log("\x1b[36m[Info]\x1b[0m Easy Legendary will close in 5 seconds...")
+	await delay(5000)
+	process.exit(1);
+})

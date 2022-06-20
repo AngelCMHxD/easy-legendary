@@ -1,10 +1,25 @@
 const fs = require("fs");
 const inquirer = require("inquirer")
 const cp = require("child_process")
-const ws = require("windows-shortcuts")
+const createShortcut = require("create-desktop-shortcuts")
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
 module.exports = async () => {
+
+	let isCompiled;
+	let VBScriptPath = "";
+	if (require.main.path.endsWith("\\snapshot\\legendary")) {
+		isCompiled = true;
+		let locatedExe = process.argv0.split("\\")
+		locatedExe.pop()
+		VBScriptPath = locatedExe.join("\\") + "\\shortcut.vbs"
+	}
+
+	const existsVBScript = await fs.existsSync(VBScriptPath)
+	if (!existsVBScript) {
+		console.log("The shortcut.vbs file was not found. Please reinstall the tool in order to create shortcuts.");
+		return;
+	}
 
 	const searchGames = await require("../utils/searchInstalledGames.js")()
 
@@ -36,7 +51,7 @@ module.exports = async () => {
 		}
 	})
 
-	console.log("Searching were is the game is installed...")
+	console.log("Searching were is the game installed...")
 	const gameInfo = cp.execSync(`legendary info "${game}"`, { stdio: "pipe" }).toString()
 
 	let gameFolder = "";
@@ -73,27 +88,44 @@ module.exports = async () => {
 	})
 
 
-	console.log(`Creating shortcut for "${game}" (${gameExe})...`)
+	console.log(`Creating shortcut(s) for "${game}" (${gameExe})...`)
 
 	if (where.includes("Desktop")) {
-		await ws.create(process.env.USERPROFILE + "\\Desktop\\" + game + ".lnk", {
-			target: legendaryPath,
-			args: `launch "${game}"`,
-			icon: gameExe,
-			desc: `Launch ${game}`,
-			runStyle: ws.MIN
-		});
+		let desktopOptions = {
+			verbose: false,
+			windows: {
+				name: game,
+				filePath: legendaryPath,
+				arguments: `launch "${game}"`,
+				icon: gameExe,
+				comment: `Launch ${game}`,
+				windowMode: "minimized"
+			}
+		}
+
+		if (isCompiled) desktopOptions.windows.VBScriptPath = VBScriptPath
+		
+		await createShortcut(desktopOptions)
 		console.log(`A shortcut for "${game}" should has been created on your desktop!`)
 	}
 
 	if (where.includes("Start Menu")) {
-		await ws.create(process.env.USERPROFILE + "\\Start Menu\\Programs\\" + game + ".lnk", {
-			target: legendaryPath,
-			args: `launch "${game}"`,
-			icon: gameExe,
-			desc: `Launch ${game}`,
-			runStyle: ws.MIN
-		});
+		let startOptions = {
+			verbose: false,
+			windows: {
+				name: game,
+				outputPath: process.env.USERPROFILE + "\\Start Menu\\Programs\\",
+				filePath: legendaryPath,
+				arguments: `launch "${game}"`,
+				icon: gameExe,
+				comment: `Launch ${game}`,
+				windowMode: "minimized"
+			}
+		}
+
+		if (isCompiled) startOptions.windows.VBScriptPath = VBScriptPath
+
+		await createShortcut(startOptions);
 		console.log(`A shortcut for "${game}" should has been created on your start menu!`)
 	}
 
