@@ -2,7 +2,7 @@
 
 ![release](https://badgen.net/github/release/AngelCMHxD/easy-legendary) ![license](https://badgen.net/github/license/AngelCMHxD/easy-legendary) ![open-issues](https://badgen.net/github/open-issues/AngelCMHxD/easy-legendary)
 
-![logo](https://user-images.githubusercontent.com/57822483/174692800-b50d4f7c-e1ab-4515-a37e-452508495761.png)
+![logo](https://repository-images.githubusercontent.com/447449192/b5bcce51-1c4f-4755-90ac-d482a4db4a4d)
 
 This tool executes [legendary-gl](https://github.com/derrod/legendary) commands for you through a simple interface.\
 Do you want to replace Epic Games Launcher, but don't like executing commands? This tool is for you!
