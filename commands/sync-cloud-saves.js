@@ -34,9 +34,10 @@ module.exports = async () => {
 	await cp.execSync("legendary sync-saves -y", { stdio: "pipe" });
 	await cp.execSync("legendary download-saves -y", { stdio: "pipe" });
 	if (confirmCorrupted)
+		// This DOESN'T delete your saves, only your corrupted ones
 		await cp.execSync("legendary clean-saves -y", {
 			stdio: "pipe",
-		}); // This DOESN'T delete your saves, only your corrupted ones
+		});
 	else console.log("Skipped deleting corrupted online saves.");
 	console.log("Saves synchronized!");
 };

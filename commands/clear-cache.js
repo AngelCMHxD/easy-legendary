@@ -13,7 +13,7 @@ module.exports = async () => {
 		await fs.unlinkSync(cachePath);
 	}
 	console.log("Refreshing installed games...");
-	removeFinishedDownloadsFromConfig();
+	await removeFinishedDownloadsFromConfig();
 	console.log("Re-caching games...");
 	startCaching();
 	console.log("Cache cleanup finished!");
