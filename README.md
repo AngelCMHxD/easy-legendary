@@ -1,6 +1,6 @@
 # Easy Legendary!
 
-![release](https://badgen.net/github/release/AngelCMHxD/easy-legendary) ![license](https://badgen.net/github/license/AngelCMHxD/easy-legendary) ![open-issues](https://badgen.net/github/open-issues/AngelCMHxD/easy-legendary)
+![release](https://badgen.net/github/release/AngelCMHxD/easy-legendary?cache=300) ![license](https://badgen.net/github/license/AngelCMHxD/easy-legendary) ![open-issues](https://badgen.net/github/open-issues/AngelCMHxD/easy-legendary?cache=300)
 
 ![ez-banner](https://user-images.githubusercontent.com/57822483/174696719-12d636f9-24bc-467f-85f2-1f17d01869ca.png)
 
