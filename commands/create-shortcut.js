@@ -18,7 +18,7 @@ module.exports = async () => {
 	}
 
 	const existsVBScript = await fs.existsSync(VBScriptPath);
-	if (!existsVBScript) {
+	if (!existsVBScript && isCompiled) {
 		console.log(
 			"The shortcut.vbs file was not found. Please reinstall the tool in order to create shortcuts."
 		);

@@ -3,6 +3,11 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 global.delay = (ms) => new Promise((res) => setTimeout(res, ms));
 global.cacheObj = {};
+global.writeCache = async () => {
+	let path = getConfigPath();
+	path += "cache.json";
+	await fs.writeFileSync(path, JSON.stringify(cacheObj, null, "\t"));
+};
 global.configObj = {};
 let defaultConfig = {
 	updateDetected: false,
@@ -20,6 +25,7 @@ module.exports = async () => {
 				"\x1b[31m[Error]\x1b[0m",
 				"Python not installed! First install it in order to use this tool! (Remember to add it to the path)"
 			);
+			await delay(5000);
 			process.exit(1);
 		}
 	}
@@ -48,7 +54,7 @@ module.exports = async () => {
 		process.exit(1);
 	}
 
-	let configPath = await getConfigPath();
+	let configPath = getConfigPath();
 
 	if (!fs.existsSync(configPath + "config.json")) {
 		createConfig();
@@ -58,15 +64,16 @@ module.exports = async () => {
 		checkForUpdate();
 	}
 
-	startCaching();
-	console.log("\x1b[36m[Info]\x1b[0m", `Caching started...`);
+	console.log("\x1b[36m[Info]\x1b[0m", `Loading cache...`);
+	await loadCache();
+	console.log("\x1b[36m[Info]\x1b[0m", `Finished caching...`);
 
 	console.log(
 		"\x1b[34m[Setup]\x1b[0m",
 		"Setup completed! Starting app and clearing console..."
 	);
 	console.log("\n");
-	await delay(1000);
+	await delay(500);
 	console.clear();
 };
 
@@ -104,7 +111,7 @@ async function updateLegendary() {
  * @param {array} prevConfigs
  */
 async function createConfig(prevConfigs) {
-	let path = await getConfigPath();
+	let path = getConfigPath();
 	let newConfigs = defaultConfig;
 
 	if (prevConfigs)
@@ -119,7 +126,7 @@ async function createConfig(prevConfigs) {
 }
 
 configObj.setConfig = async (entry, value) => {
-	let configPath = await getConfigPath();
+	let configPath = getConfigPath();
 	let config = await configObj.getConfig();
 	config[entry] = value;
 
@@ -129,15 +136,17 @@ configObj.setConfig = async (entry, value) => {
 	);
 };
 
-configObj.getConfig = async () => {
-	let configPath = await getConfigPath();
+configObj.getConfig = async (returnConfigPath) => {
+	let configPath = getConfigPath();
+
+	if (returnConfigPath) return configPath;
 
 	let config = await fs.readFileSync(configPath + "config.json").toString();
 	config = await JSON.parse(config);
 	return config;
 };
 
-async function getConfigPath() {
+function getConfigPath() {
 	let configPath;
 
 	if (process.argv0.endsWith("node.exe"))
@@ -188,15 +197,32 @@ async function checkForUpdate() {
 	}
 }
 
-async function startCaching() {
+async function loadCache() {
+	let cache;
+	let cachePath = getConfigPath() + "cache.json";
+	let cacheExists = fs.existsSync(cachePath);
+	if (cacheExists) {
+		cache = await fs.readFileSync(cachePath).toString();
+		cacheObj = JSON.parse(cache);
+	} else startCaching();
+	removeFinishedDownloadsFromConfig();
+}
+
+global.startCaching = () => {
 	require("./utils/searchInstalledGames")();
 	require("./utils/searchOwnedGames")();
+	require("./utils/getInstalledGames")();
+	require("./utils/getOwnedGames")();
 	require("./utils/getLegendaryPath")();
+};
 
+global.removeFinishedDownloadsFromConfig = async () => {
 	const config = await configObj.getConfig();
-	let unfinishedDownloads = []
-	config.unfinishedDownloads.forEach(download => { 
+	let unfinishedDownloads = [];
+	await config.unfinishedDownloads.forEach(async (download) => {
 		const isInstalled = await require("./utils/isInstalled")(download.name);
-		if (!isInstalled) unfinishedDownloads.push(download)
-	})
-}
+		if (!isInstalled) unfinishedDownloads.push(download);
+	});
+
+	configObj.setConfig("unfinishedDownloads", unfinishedDownloads);
+};

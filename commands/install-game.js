@@ -29,34 +29,45 @@ module.exports = async () => {
 
 	if (game === "Select this item to exit...") return;
 
-	let diskPath = await inquirer
-		.prompt([
-			{
-				type: "input",
-				name: "diskPath",
-				message: `Where do you want to install the game?`,
-				validate: (val) => {
-					if (val) {
-						let regex = /^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm;
-						let matchRegex = regex.test(val.replaceAll("/", "\\"));
-						if (matchRegex) return true;
-						else {
-							let matchRegex = regex.test(val.replaceAll("/", "\\") + "\\");
+	let config = await configObj.getConfig();
+	let unfinishedDownload = false;
+	let unfinishedDownloads = config.unfinishedDownloads;
+	unfinishedDownloads.forEach((download) => {
+		if (download.name === game) unfinishedDownload = download;
+	});
+	let diskPath;
+	if (!unfinishedDownload) {
+		diskPath = await inquirer
+			.prompt([
+				{
+					type: "input",
+					name: "diskPath",
+					message: `Where do you want to install the game?`,
+					validate: (val) => {
+						if (val) {
+							let regex = /^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm;
+							let matchRegex = regex.test(val.replaceAll("/", "\\"));
 							if (matchRegex) return true;
-							else return "Type a valid path";
-						}
-					} else return "Type a valid path";
+							else {
+								let matchRegex = regex.test(val.replaceAll("/", "\\") + "\\");
+								if (matchRegex) return true;
+								else return "Type a valid path";
+							}
+						} else return "Type a valid path";
+					},
 				},
-			},
-		])
-		.then((a) => {
-			return a.diskPath;
-		});
-	diskPath = diskPath.replaceAll("\\", "/").replaceAll("\\\\", "/");
-	diskPath =
-		diskPath.split(":")[0].toUpperCase() + ":" + diskPath.split(":")[1];
+			])
+			.then((a) => {
+				return a.diskPath;
+			});
+		diskPath = diskPath.replaceAll("\\", "/").replaceAll("\\\\", "/");
+		diskPath =
+			diskPath.split(":")[0].toUpperCase() + ":" + diskPath.split(":")[1];
+	} else diskPath = unfinishedDownload.diskPath;
+
 	let diskPathwGame = diskPath + "/" + game;
 	diskPathwGame = diskPathwGame.replaceAll("//", "/");
+
 	const confirm = await inquirer
 		.prompt([
 			{
@@ -69,18 +80,23 @@ module.exports = async () => {
 			return a.confirm;
 		});
 
-	if (confirm) {
-		// exit if folder is protected and is not elevated
-		require("../utils/elevationCheck.js")(diskPath, game);
+	if (!confirm) return console.log("Installation canceled!");
 
-		console.log(`Installing ${game}...`);
-		console.log(
-			`The installation will occur on a separated cmd window in order to prevent errors!`
-		);
+	if (!unfinishedDownload) {
+		unfinishedDownloads.push({ name: game, diskPath: diskPath });
+		configObj.setConfig("unfinishedDownloads", unfinishedDownloads);
+	}
 
-		cp.execSync(
-			`start legendary install "${game}" --base-path "${diskPath}" -y`,
-			{ encoding: "utf-8", stdio: "inherit" }
-		);
-	} else console.log("Installation canceled!");
+	// exit if folder is protected and is not elevated
+	require("../utils/elevationCheck.js")(diskPath, game);
+
+	console.log(`Installing ${game}...`);
+	console.log(
+		`The installation will occur on a separated cmd window in order to prevent errors!`
+	);
+
+	await cp.execSync(
+		`start cmd /K legendary install "${game}" --base-path "${diskPath}" -y`,
+		{ encoding: "utf-8", stdio: "inherit" }
+	);
 };

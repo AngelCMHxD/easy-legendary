@@ -28,10 +28,11 @@ module.exports = async () => {
 			game = game.split(" (App name: ")[0];
 			games.push(game);
 		});
-		cacheObj.installedGamesList;
+		cacheObj.installedGamesList = games;
 	} else games = cacheObj.installedGamesList;
 
-	games.unshift("Select this item to exit...");
+	if (!games.includes("Select this item to exit..."))
+		games.unshift("Select this item to exit...");
 
 	return function searchGames(answers, input) {
 		input = input || "";

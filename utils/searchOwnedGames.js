@@ -5,7 +5,7 @@ const fuzzy = require("fuzzy");
 module.exports = async () => {
 	let games = [];
 
-	if (!cache.ownedGamesList) {
+	if (!cacheObj.ownedGamesList) {
 		let gamesOutput = await cp
 			.execSync("legendary list-games", { stdio: "pipe" })
 			.toString()
@@ -28,10 +28,11 @@ module.exports = async () => {
 			game = game.split(" (App name: ")[0];
 			games.push(game);
 		});
-		cache.ownedGamesList = games;
-	} else games = cache.ownedGamesList;
+		cacheObj.ownedGamesList = games;
+	} else games = cacheObj.ownedGamesList;
 
-	games.unshift("Select this item to exit...");
+	if (!games.includes("Select this item to exit..."))
+		games.unshift("Select this item to exit...");
 
 	return function searchGames(answers, input) {
 		input = input || "";
