@@ -51,7 +51,7 @@ module.exports = async () => {
 	let configPath = await getConfigPath();
 
 	if (!fs.existsSync(configPath + "config.json")) {
-		await createConfig();
+		createConfig();
 		await updateLegendary();
 	} else {
 		await checkConfig();
@@ -155,7 +155,7 @@ async function checkConfig() {
 
 	if (config.updateDetected) {
 		await updateLegendary();
-		await configObj.setConfig("updateDetected", false);
+		configObj.setConfig("updateDetected", false);
 	}
 
 	if (Object.entries(config).length !== Object.entries(defaultConfig).length) {
@@ -167,7 +167,7 @@ async function checkConfig() {
 			});
 		});
 
-		await createConfig(prevConfigs);
+		createConfig(prevConfigs);
 	}
 }
 
@@ -184,7 +184,7 @@ async function checkForUpdate() {
 	});
 
 	if (legendary_ver[1] !== release.tag_name) {
-		await configObj.setConfig("updateDetected", true);
+		configObj.setConfig("updateDetected", true);
 	}
 }
 
