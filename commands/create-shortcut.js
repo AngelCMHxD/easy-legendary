@@ -48,23 +48,9 @@ module.exports = async () => {
 
 	if (game === "Select this item to exit...") return;
 
-	const pipScripts = await cp.execSync(`pip show legendary-gl`, {
-		stdio: "pipe",
-	});
-
 	console.log("Searching were is legendary-gl installed...");
-	let legendaryPath = "";
-	pipScripts
-		.toString()
-		.split("\n")
-		.forEach((line) => {
-			if (line.includes("Location:")) {
-				let packagesPath = line.split("Location: ")[1];
-				legendaryPath =
-					packagesPath.split("\\").slice(0, -2).join("\\") +
-					"\\scripts\\legendary.exe";
-			}
-		});
+
+	const legendaryPath = await require("../utils/getLegendaryPath")();
 
 	console.log("Searching were is the game installed...");
 	const gameInfo = cp

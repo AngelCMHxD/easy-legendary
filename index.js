@@ -7,8 +7,8 @@ inquirer.registerPrompt(
 	require("inquirer-autocomplete-prompt")
 );
 const commands = {
-	"list-owned-games": "List owned games.",
-	"list-installed-games": "List installed/imported games.",
+	"list-owned-games": "List owned games...",
+	"list-installed-games": "List installed/imported games...",
 	"start-game": "Start a game...",
 	"install-game": "Install a game...",
 	"update-game": "Update a game...",

@@ -29,7 +29,6 @@ module.exports = async () => {
 
 	if (game === "Select this item to exit...") return;
 
-	console.log("Launching game and exiting...");
+	console.log("Launching game...");
 	cp.execSync(`legendary launch "${game}"`);
-	process.exit();
 };

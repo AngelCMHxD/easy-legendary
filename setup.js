@@ -2,7 +2,7 @@ const cp = require("child_process");
 const fs = require("fs");
 const fetch = require("node-fetch");
 global.delay = (ms) => new Promise((res) => setTimeout(res, ms));
-global.cache = {};
+global.cacheObj = {};
 global.configObj = {};
 let defaultConfig = {
 	updateDetected: false,
@@ -20,7 +20,7 @@ module.exports = async () => {
 				"\x1b[31m[Error]\x1b[0m",
 				"Python not installed! First install it in order to use this tool! (Remember to add it to the path)"
 			);
-			process.exit();
+			process.exit(1);
 		}
 	}
 
@@ -45,7 +45,7 @@ module.exports = async () => {
 			`Incompatible Python detected (${py_ver}), you need Python 3.8+ to run this program! Exiting in 5 seconds...`
 		);
 		await delay(5000);
-		process.exit();
+		process.exit(1);
 	}
 
 	let configPath = await getConfigPath();
@@ -57,6 +57,9 @@ module.exports = async () => {
 		await checkConfig();
 		checkForUpdate();
 	}
+
+	startCaching();
+	console.log("\x1b[36m[Info]\x1b[0m", `Caching started...`);
 
 	console.log(
 		"\x1b[34m[Setup]\x1b[0m",
@@ -183,4 +186,17 @@ async function checkForUpdate() {
 	if (legendary_ver[1] !== release.tag_name) {
 		await configObj.setConfig("updateDetected", true);
 	}
+}
+
+async function startCaching() {
+	require("./utils/searchInstalledGames")();
+	require("./utils/searchOwnedGames")();
+	require("./utils/getLegendaryPath")();
+
+	const config = await configObj.getConfig();
+	let unfinishedDownloads = []
+	config.unfinishedDownloads.forEach(download => { 
+		const isInstalled = await require("./utils/isInstalled")(download.name);
+		if (!isInstalled) unfinishedDownloads.push(download)
+	})
 }
