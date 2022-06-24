@@ -13,7 +13,7 @@ Also, If you don't like the look of terminal interfaces you are probably searchi
 
 ### Before you start
 
-This tool is made for **Windows 8.1 and up**, no Win7/Linux/Wine support at the moment!
+This tool is made for **Windows 8.1 and up**, no Win7/Linux/Wine support ***at the moment!***
 
 ### Pre-requisites
 
