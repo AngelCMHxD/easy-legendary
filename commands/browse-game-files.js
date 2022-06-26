@@ -14,7 +14,7 @@ module.exports = async () => {
 				type: "autocomplete",
 				source: searchGames,
 				name: "game",
-				message: "Type the name of the game you want to find it's files:",
+				message: "Type the name of the game you want to find the files of:",
 				emptyText: "Nothing here!",
 				pageSize: 10,
 				loop: false,
