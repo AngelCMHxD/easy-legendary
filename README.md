@@ -1,10 +1,10 @@
 # Easy Legendary!
 
-![release](https://badgen.net/github/release/AngelCMHxD/easy-legendary) ![license](https://badgen.net/github/license/AngelCMHxD/easy-legendary) ![open-issues](https://badgen.net/github/open-issues/AngelCMHxD/easy-legendary)
+![release](https://badgen.net/github/release/AngelCMHxD/easy-legendary?cache=300) ![license](https://badgen.net/github/license/AngelCMHxD/easy-legendary) ![open-issues](https://badgen.net/github/open-issues/AngelCMHxD/easy-legendary?cache=300)
 
 ![ez-banner](https://user-images.githubusercontent.com/57822483/174696719-12d636f9-24bc-467f-85f2-1f17d01869ca.png)
 
-This tool executes [legendary-gl](https://github.com/derrod/legendary) commands for you through a simple interface.\
+This tool executes [legendary](https://github.com/derrod/legendary) commands for you through a simple interface.\
 Do you want to replace Epic Games Launcher, but don't like executing commands? This tool is for you!
 
 Also, If you don't like the look of terminal interfaces you are probably searching for [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher) or [Rare](https://github.com/Dummerle/Rare)
@@ -13,7 +13,7 @@ Also, If you don't like the look of terminal interfaces you are probably searchi
 
 ### Before you start
 
-This tool is made for **Windows 8.1 and up**, no Win7/Linux/Wine support at the moment!
+This tool is made for **Windows 8.1 and up**, no Win7/Linux/Wine support ***at the moment!***
 
 ### Pre-requisites
 
@@ -40,3 +40,7 @@ Note: You also need [node](https://nodejs.org/) to install the tool this way.
 ## Known Bugs
 
 No known bugs at the moment. If you find one, please report it on [GitHub's Issues](https://github.com/angelcmhxd/easy-legendary/issues)
+
+## Special Thanks
+- Thanks to [Rodney](https://github.com/derrod) for making [legendary](https://github.com/derrod/legendary), this tool wouldn't existed without it.
+- Thanks to [TheBrunoRM](https://github.com/TheBrunoRM) for making the logo, parody of the Epic's logo.
