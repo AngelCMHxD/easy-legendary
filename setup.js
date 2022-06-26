@@ -1,6 +1,7 @@
 const cp = require("child_process");
 const fs = require("fs");
 const fetch = require("node-fetch");
+global.version = "1.4";
 global.delay = (ms) => new Promise((res) => setTimeout(res, ms));
 global.cacheObj = {};
 global.clearLastLine = () => {
@@ -66,19 +67,29 @@ module.exports = async () => {
 		await updateLegendary();
 	} else {
 		await checkConfig();
-		checkForUpdate();
+		checkForUpdateLegendary();
 	}
 
 	console.log("\x1b[34m[Setup]\x1b[0m", `Loading cache...`);
 	await loadCache();
 	console.log("\x1b[34m[Setup]\x1b[0m", `Finished loading cache...`);
 
+	console.log("\x1b[36m[Info]\x1b[0m", `Checking for updates...`);
+	const isThereAnUpdate = await isUpdateAvailable();
+	if (isThereAnUpdate)
+		console.log(
+			"\x1b[36m[Info]\x1b[0m",
+			`A new update has been detected! (v${isThereAnUpdate})`
+		);
+	else
+		console.log("\x1b[36m[Info]\x1b[0m", `You are running the latest version!`);
+
 	console.log(
 		"\x1b[34m[Setup]\x1b[0m",
 		"Setup completed! Starting app and clearing console..."
 	);
 	console.log("\n");
-	await delay(500);
+	await delay(isThereAnUpdate ? 5000 : 1000);
 	console.clear();
 };
 
@@ -185,7 +196,7 @@ async function checkConfig() {
 	}
 }
 
-async function checkForUpdate() {
+async function checkForUpdateLegendary() {
 	let legendary_ver = await cp
 		.execSync("legendary --version")
 		.toString()
@@ -201,6 +212,17 @@ async function checkForUpdate() {
 		configObj.setConfig("updateDetected", true);
 	}
 }
+
+global.isUpdateAvailable = async () => {
+	const release = await fetch(
+		"https://api.github.com/repos/AngelCMHxD/easy-legendary/releases/latest"
+	).then((res) => {
+		return res.json();
+	});
+
+	if (version !== release.tag_name) return release.tag_name;
+	return false;
+};
 
 async function loadCache() {
 	let cache;

@@ -22,6 +22,7 @@ const commands = {
 	"move-game": "Move a game to another folder...",
 	"create-shortcut": "Create a shortcut...",
 	"refresh-cache": "Refresh/Update the cache...",
+	"check-for-updates": "Check for updates...",
 	exit: "Exit",
 };
 
@@ -126,7 +127,8 @@ async function loop() {
 })();
 
 process.on("uncaughtException", async (err) => {
-	console.log("\x1b[31m[Error]\x1b[0m " + err.toString());
+	console.log("\x1b[31m[ERROR]\x1b[0m");
+	console.log(err);
 	console.log(
 		"\x1b[36m[Info]\x1b[0m Easy Legendary will close in 5 seconds..."
 	);
