@@ -14,6 +14,7 @@ const commands = {
 	"update-game": "Update a game...",
 	"import-game": "Import a installed game...",
 	"uninstall-game": "Uninstall a game...",
+	"browse-game-files": "Browse within game's files...",
 	"show-game-info": "Show info about a game...",
 	"sync-cloud-saves": "Sync cloud saves...",
 	"sync-with-egl": "Sync games with Epic Games Launcher...",

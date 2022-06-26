@@ -3,7 +3,7 @@ const fs = require("fs");
 
 module.exports = async () => {
 	console.log("Starting cache cleanup...");
-	await cp.execSync("legendary cleanup");
+	await cp.execSync("legendary cleanup", { stdio: "ignore" });
 	cacheObj = {};
 	let cachePath = await configObj.getConfig(true);
 	cachePath += "cache.json";
@@ -12,9 +12,11 @@ module.exports = async () => {
 		console.log("Deleting cache file...");
 		await fs.unlinkSync(cachePath);
 	}
-	console.log("Refreshing installed games...");
+	console.log("Refreshing downloads...");
 	await removeFinishedDownloadsFromConfig();
 	console.log("Re-caching games...");
-	startCaching();
+	await startCaching();
+	console.log("Saving new cache...");
+	await writeCache();
 	console.log("Cache cleanup finished!");
 };

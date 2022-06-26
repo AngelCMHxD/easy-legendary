@@ -3,6 +3,10 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 global.delay = (ms) => new Promise((res) => setTimeout(res, ms));
 global.cacheObj = {};
+global.clearLastLine = () => {
+	process.stdout.moveCursor(0, -1);
+	process.stdout.clearLine(1);
+};
 global.writeCache = async () => {
 	let path = getConfigPath();
 	path += "cache.json";
@@ -15,6 +19,7 @@ let defaultConfig = {
 };
 
 module.exports = async () => {
+	console.log("\x1b[34m[Setup]\x1b[0m", "Checking python version...");
 	let py_ver;
 	try {
 		result = await cp.execSync("py --version", { stdio: "pipe" }).toString();
@@ -42,7 +47,7 @@ module.exports = async () => {
 
 	if (compatible)
 		console.log(
-			"\x1b[36m[Info]\x1b[0m",
+			"\x1b[34m[Setup]\x1b[0m",
 			`Compatible Python detected (${py_ver})! Proceding...`
 		);
 	else {
@@ -64,9 +69,9 @@ module.exports = async () => {
 		checkForUpdate();
 	}
 
-	console.log("\x1b[36m[Info]\x1b[0m", `Loading cache...`);
+	console.log("\x1b[34m[Setup]\x1b[0m", `Loading cache...`);
 	await loadCache();
-	console.log("\x1b[36m[Info]\x1b[0m", `Finished caching...`);
+	console.log("\x1b[34m[Setup]\x1b[0m", `Finished loading cache...`);
 
 	console.log(
 		"\x1b[34m[Setup]\x1b[0m",
@@ -204,16 +209,40 @@ async function loadCache() {
 	if (cacheExists) {
 		cache = await fs.readFileSync(cachePath).toString();
 		cacheObj = JSON.parse(cache);
-	} else startCaching();
+	} else await startCaching();
 	removeFinishedDownloadsFromConfig();
 }
 
-global.startCaching = () => {
-	require("./utils/searchInstalledGames")();
-	require("./utils/searchOwnedGames")();
-	require("./utils/getInstalledGames")();
-	require("./utils/getOwnedGames")();
-	require("./utils/getLegendaryPath")();
+global.startCaching = async () => {
+	console.log(
+		"\x1b[36m[Cache]\x1b[0m",
+		"(1/6) Caching installed games list..."
+	);
+	await require("./utils/searchInstalledGames")();
+
+	clearLastLine();
+	console.log("\x1b[36m[Cache]\x1b[0m", "(2/6) Caching owned games list...");
+	await require("./utils/searchOwnedGames")();
+
+	clearLastLine();
+	console.log(
+		"\x1b[36m[Cache]\x1b[0m",
+		"(3/6) Caching installed games logs..."
+	);
+	await require("./utils/getInstalledGames")();
+
+	clearLastLine();
+	console.log("\x1b[36m[Cache]\x1b[0m", "(4/6) Caching owned games logs...");
+	await require("./utils/getOwnedGames")();
+	clearLastLine();
+
+	console.log("\x1b[36m[Cache]\x1b[0m", "(5/6) Caching legendary-gl path...");
+	await require("./utils/getLegendaryPath")();
+	clearLastLine();
+
+	console.log("\x1b[36m[Cache]\x1b[0m", "(6/6) Saving cache...");
+	writeCache();
+	clearLastLine();
 };
 
 global.removeFinishedDownloadsFromConfig = async () => {
@@ -221,6 +250,7 @@ global.removeFinishedDownloadsFromConfig = async () => {
 	let unfinishedDownloads = [];
 	await config.unfinishedDownloads.forEach(async (download) => {
 		const isInstalled = await require("./utils/isInstalled")(download.name);
+		console.log(isInstalled);
 		if (!isInstalled) unfinishedDownloads.push(download);
 	});
 
