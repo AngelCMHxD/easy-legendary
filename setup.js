@@ -177,9 +177,9 @@ configObj.getConfig = async (returnConfigPath) => {
 function getConfigPath() {
 	let configPath;
 
-	if (process.argv0.endsWith("node.exe"))
-		configPath = process.argv[1].split("\\");
-	else configPath = process.argv0.split("\\");
+	if (require.main.path.endsWith("\\snapshot\\legendary"))
+		configPath = process.argv0.split("\\");
+	else configPath = process.argv[1].split("\\");
 
 	configPath.pop();
 	configPath = configPath.join("\\") + "\\";
