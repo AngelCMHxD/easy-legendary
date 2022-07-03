@@ -8,10 +8,9 @@ inquirer.registerPrompt(
 );
 
 module.exports = async () => {
-	let isCompiled;
+	let isCompiled = getCompiled();
 	let VBScriptPath = "";
-	if (require.main.path.endsWith("\\snapshot\\legendary")) {
-		isCompiled = true;
+	if (isCompiled) {
 		let locatedExe = process.argv0.split("\\");
 		locatedExe.pop();
 		VBScriptPath = locatedExe.join("\\") + "\\shortcut.vbs";

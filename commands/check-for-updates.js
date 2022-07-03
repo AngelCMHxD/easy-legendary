@@ -2,7 +2,6 @@ const cliProgress = require("cli-progress");
 const fs = require("fs");
 const inquirer = require("inquirer");
 const request = require("request");
-const fetch = require("node-fetch");
 const unzipper = require("unzipper");
 
 async function downloadFile(url, filename) {
@@ -71,7 +70,7 @@ module.exports = async () => {
 	);
 
 	let locatedMainDir;
-	if (!require.main.path.endsWith("\\snapshot\\legendary")) {
+	if (getCompiled()) {
 		console.log(
 			"You are using a uncompiled version of easy-legendary. Take into account that the updated version of easy-legendary will be compiled."
 		);

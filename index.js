@@ -1,4 +1,3 @@
-const cp = require("child_process");
 const setup = require("./setup");
 const inquirer = require("inquirer");
 const fuzzy = require("fuzzy");
@@ -84,7 +83,7 @@ async function loop() {
 
 (async () => {
 	console.log(`\x1b[32m\x1b[1m -- Welcome to Easy Legendary --\x1b[0m`);
-	if (!require.main.path.endsWith("\\snapshot\\legendary"))
+	if (getCompiled())
 		console.log(
 			"\x1b[36m[Info]\x1b[0m Uncompiled version of Easy Legendary detected. This build may be unstable."
 		);

@@ -9,6 +9,14 @@ global.clearLastLine = () => {
 	process.stdout.moveCursor(0, -1);
 	process.stdout.clearLine(1);
 };
+global.getCompiled = () => {
+	let path = require.main.path;
+	let splitPath = path.split("\\");
+	splitPath.pop();
+	let name = splitPath.pop();
+	if (name === "snapshot") return true;
+	return false;
+};
 global.writeCache = async () => {
 	let path = getConfigPath();
 	path += "cache.json";
@@ -177,9 +185,9 @@ configObj.getConfig = async (returnConfigPath) => {
 function getConfigPath() {
 	let configPath;
 
-	if (process.argv0.endsWith("node") || process.argv0.endsWith("node.exe"))
-		configPath = process.argv[1].split("\\");
-	else configPath = process.argv0.split("\\");
+	if (getCompiled())
+		configPath = process.argv0.split("\\");
+	else configPath = process.argv[1].split("\\");
 
 	configPath.pop();
 	configPath = configPath.join("\\") + "\\";
