@@ -67,7 +67,7 @@ module.exports = async () => {
 	console.log(`There is an update available! (${update})`);
 	console.log(
 		"Changelog: https://github.com/AngelCMHxD/easy-legendary/releases/tag/" +
-			update
+		update
 	);
 
 	let locatedMainDir;
@@ -94,10 +94,16 @@ module.exports = async () => {
 	locatedMainDir.pop();
 	let path = locatedMainDir.join("\\") + "\\";
 
+	if (fs.existsSync(path + "easy-legendary_updated.zip"))
+		fs.unlinkSync(path + "easy-legendary_updated.zip");
+
+	if (fs.existsSync(path + "easy-legendary_updated.zip.downloading"))
+		fs.unlinkSync(path + "easy-legendary_updated.zip.downloading");
+
 	console.log(`Downloading file easy-legendary_updated.zip...`);
 	const download = await downloadFile(
 		"https://github.com/AngelCMHxD/easy-legendary/releases/latest/download/easy-legendary.zip",
-		path + "easy-legendary_updated.zip"
+		path + "easy-legendary_updated.zip.downloading"
 	);
 	if (
 		(typeof download === Boolean && !download) ||
@@ -107,7 +113,7 @@ module.exports = async () => {
 		if (typeof download === String) console.log("Error: " + download);
 		return;
 	}
-
+	await fs.renameSync(path + "easy-legendary_updated.zip.downloading", path + "easy-legendary_updated.zip");
 	console.log("Update downloaded!");
 	console.log("Unzipping file...");
 
