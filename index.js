@@ -90,39 +90,6 @@ async function loop() {
 		);
 
 	await setup();
-	try {
-		await cp.execSync("legendary auth", { stdio: "pipe" });
-	} catch (e) {
-		console.log(
-			"Follow these steps in order to login with your Epic Games Account:"
-		);
-		console.log("1. Login into Epic Games (A pop-up should have appeared).");
-		const sid = await inquirer
-			.prompt([
-				{
-					name: "sidJson",
-					type: "input",
-					message: "2. Copy and paste the result text here: ",
-				},
-			])
-			.then(async (a) => {
-				try {
-					let sid = JSON.parse(a.sidJson).sid;
-					if (sid) return sid;
-					else throw new Error("Invalid JSON");
-				} catch (e) {
-					if (e.toString().startsWith("SyntaxError")) return a.sidJson;
-					if (e.toString().startsWith("Error: Invalid JSON")) {
-						console.log(
-							"\x1b[31m[Error]\x1b[0m JSON does not contains account SID."
-						);
-						await delay(3000);
-						process.exit(1);
-					}
-				}
-			});
-		await cp.execSync(`legendary auth --sid "${sid}"`, { stdio: "pipe" });
-	}
 	await loop();
 })();
 

@@ -1,6 +1,7 @@
 const cp = require("child_process");
 const fs = require("fs");
 const fetch = require("node-fetch");
+const inquirer = require("inquirer");
 global.version = "1.4";
 global.delay = (ms) => new Promise((res) => setTimeout(res, ms));
 global.cacheObj = {};
@@ -62,13 +63,24 @@ module.exports = async () => {
 
 	let configPath = getConfigPath();
 
-	if (!fs.existsSync(configPath + "config.json")) {
+	if (!(await fs.existsSync(configPath + "config.json"))) {
+		console.log(
+			"\x1b[34m[Setup]\x1b[0m",
+			"No config file found! Creating one..."
+		);
 		createConfig();
 		await updateLegendary();
 	} else {
+		console.log(
+			"\x1b[34m[Setup]\x1b[0m",
+			"Config file found! Proceding..."
+		);
 		await checkConfig();
 		checkForUpdateLegendary();
 	}
+
+	console.log("\x1b[34m[Setup]\x1b[0m", "Checking if a valid session exists!");
+	await loginOntoLegendary();
 
 	console.log("\x1b[34m[Setup]\x1b[0m", `Loading cache...`);
 	await loadCache();
@@ -278,3 +290,44 @@ global.removeFinishedDownloadsFromConfig = async () => {
 
 	configObj.setConfig("unfinishedDownloads", unfinishedDownloads);
 };
+
+async function loginOntoLegendary() {
+	let alreadyLoggedIn = true;
+	try {
+		await cp.execSync("legendary auth", { stdio: "pipe" });
+	} catch (e) {
+		alreadyLoggedIn = false;
+		console.clear();
+		console.log(
+			"Follow these steps in order to login with your Epic Games Account:"
+		);
+		console.log("1. Login into Epic Games (A pop-up should have appeared).");
+		const sid = await inquirer
+			.prompt([
+				{
+					name: "sidJson",
+					type: "input",
+					message: "2. Copy and paste the result text here: ",
+				},
+			])
+			.then(async (a) => {
+				try {
+					let sid = JSON.parse(a.sidJson).sid;
+					if (sid) return sid;
+					else throw new Error("Invalid JSON");
+				} catch (e) {
+					if (e.toString().startsWith("SyntaxError")) return a.sidJson;
+					if (e.toString().startsWith("Error: Invalid JSON")) {
+						console.log(
+							"\x1b[31m[Error]\x1b[0m JSON does not contains account SID."
+						);
+						await delay(3000);
+						process.exit(1);
+					}
+				}
+			});
+		await cp.execSync(`legendary auth --sid "${sid}"`, { stdio: "pipe" });
+		console.clear();
+	}
+	return alreadyLoggedIn;
+}
