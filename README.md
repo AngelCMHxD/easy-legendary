@@ -7,7 +7,11 @@
 This tool executes [legendary](https://github.com/derrod/legendary) commands for you through a simple interface.\
 Do you want to replace Epic Games Launcher, but don't like executing commands? This tool is for you!
 
-Also, If you don't like the look of terminal interfaces you are probably searching for [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher) or [Rare](https://github.com/Dummerle/Rare)
+## Screenshot
+
+![image](https://user-images.githubusercontent.com/57822483/177895083-c6c2026a-d495-46f6-bf40-7146880c81dc.png)
+
+If you don't like the look of terminal interfaces you are probably searching for [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher) or [Rare](https://github.com/Dummerle/Rare)
 
 ## Installation
 
