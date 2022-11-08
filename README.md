@@ -47,4 +47,4 @@ No known bugs at the moment. If you find one, please report it on [GitHub's Issu
 
 ## Special Thanks
 - Thanks to [Rodney](https://github.com/derrod) for making [legendary](https://github.com/derrod/legendary), this tool wouldn't existed without it.
-- Thanks to [TheBrunoRM](https://github.com/TheBrunoRM) for making the logo, parody of the Epic's logo.
+- Thanks to [TheBrunoRM](https://github.com/TheBrunoRM) for making the logo, a parody of the Epic's logo.
