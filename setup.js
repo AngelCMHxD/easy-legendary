@@ -310,31 +310,31 @@ async function loginOntoLegendary() {
 			"Follow these steps in order to login with your Epic Games Account:"
 		);
 		console.log("1. Login into Epic Games (A pop-up should have appeared).");
-		const sid = await inquirer
+		const authorizationCode = await inquirer
 			.prompt([
 				{
-					name: "sidJson",
+					name: "authJson",
 					type: "input",
 					message: "2. Copy and paste the result text here: ",
 				},
 			])
 			.then(async (a) => {
 				try {
-					let sid = JSON.parse(a.sidJson).sid;
-					if (sid) return sid;
+					let auth = JSON.parse(a.authJson).authorizationCode;
+					if (auth) return auth;
 					else throw new Error("Invalid JSON");
 				} catch (e) {
-					if (e.toString().startsWith("SyntaxError")) return a.sidJson;
+					if (e.toString().startsWith("SyntaxError")) return a.authJson;
 					if (e.toString().startsWith("Error: Invalid JSON")) {
 						console.log(
-							"\x1b[31m[Error]\x1b[0m JSON does not contains account SID."
+							"\x1b[31m[Error]\x1b[0m JSON does not contains authorizationCode."
 						);
 						await delay(3000);
 						process.exit(1);
 					}
 				}
 			});
-		await cp.execSync(`legendary auth --sid "${sid}"`, { stdio: "pipe" });
+		await cp.execSync(`legendary auth --code "${authorizationCode}"`, { stdio: "pipe" });
 		console.clear();
 	}
 	return alreadyLoggedIn;
