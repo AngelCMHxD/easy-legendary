@@ -11,7 +11,7 @@ Do you want to replace the Epic Games Launcher, but don't like executing command
 
 ![image](https://user-images.githubusercontent.com/57822483/177895083-c6c2026a-d495-46f6-bf40-7146880c81dc.png)
 
-If you don't like the look of terminal interfaces, you're probably looking for [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher) or [Rare](https://github.com/Dummerle/Rare)
+If you don't like the look of terminal interfaces, you're probably looking for [Heroic Games Launcher](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher) or [Rare](https://github.com/Dummerle/Rare).
 
 ## Installation
 
