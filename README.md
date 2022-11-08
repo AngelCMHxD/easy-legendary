@@ -4,8 +4,8 @@
 
 ![ez-banner](https://user-images.githubusercontent.com/57822483/174696719-12d636f9-24bc-467f-85f2-1f17d01869ca.png)
 
-Do you want to replace the Epic Games Launcher, but don't like executing commands? This tool is for you!
-This tool executes [legendary](https://github.com/derrod/legendary) commands for you through a simple interface.\
+Do you want to replace the Epic Games Launcher, but don't like executing commands? This tool is for you!\
+This tool executes [legendary](https://github.com/derrod/legendary) commands for you through a simple interface.
 
 ## Screenshot
 
