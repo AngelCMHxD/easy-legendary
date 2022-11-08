@@ -37,7 +37,7 @@ Note: You will also need [Node](https://nodejs.org/) to install the tool this wa
 1. Clone this repository.
 2. Open Command Prompt and `cd` to the folder where you cloned it.
 3. Run `npm i`.
-4. Here you could just do `node .` or `npm run start` and the program will run just fine, or you could compile it to an executable file. If you want to compile it to an executable, follow the steps 5 and 6.
+4. Here you could just run `node .` or `npm run start` and the program will run just fine, or you could compile it to an executable file. If you want to compile it to an executable, follow the steps 5 and 6.
 5. Run `npm run build` and wait (Ignore any warnings of dynamic requires)
 6. The resulting .exe should be at `/path/to/clone/dist/easy-legendary.exe`. You just need to open it! Enjoy!
 
