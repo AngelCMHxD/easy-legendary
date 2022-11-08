@@ -21,7 +21,7 @@ This tool is made for **Windows 8.1 and up**, no Win7/Linux/Wine support ***at t
 
 ### Pre-requisites
 
-Before downloading this tool you only need `Python 3.8+`, as it will auto-install and update [legendary-gl](https://github.com/derrod/legendary) for you! (You'll need to add python to the path, there is a checkbox for that in the bottom of the Python installer)
+Before downloading this tool you only need `Python 3.8+`, as it will auto-install and update [legendary-gl](https://github.com/derrod/legendary) for you! (You'll need to add python to the path, there is a checkbox for that at the bottom of the Python installer)
 
 ### How to run/install
 
