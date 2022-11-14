@@ -6,25 +6,20 @@ module.exports = async () => {
 	let games = [];
 
 	if (!cacheObj.ownedGamesList) {
-		let gamesOutput = await cp
-			.execSync("legendary list-games", { stdio: "pipe" })
+		let gamesOutput = cp.execSync("legendary list-games", { stdio: "pipe" })
 			.toString()
 			.replaceAll(/[^\x00-\x7F]/g, "")
-			.split("\n");
-		gamesOutput.shift();
-		gamesOutput.shift();
-		gamesOutput.pop();
-		gamesOutput.pop();
-		gamesOutput.pop();
+			.split("\n")
+			.slice(2,-3);
 
 		await gamesOutput.forEach(async (game) => {
-			if (game.startsWith("  +") || game.startsWith("  -")) return;
+			if (game.startsWith("  +") || game.startsWith("  -")) continue;
 			if (game.startsWith("  !")) {
 				games.pop();
 				return;
 			}
 			game = game.slice(3);
-			if (game === undefined) return;
+			if (game === undefined) continue;
 			game = game.split(" (App name: ")[0];
 			games.push(game);
 		});
