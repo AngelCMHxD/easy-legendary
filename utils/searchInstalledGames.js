@@ -6,8 +6,17 @@ module.exports = async () => {
 	let games = cacheObj.installedGamesList;
 
 	if (!games) {
-		let gamesOutput = await cp
-			.execSync("legendary list-installed", { stdio: "pipe" })
+		let output;
+		try {
+			output = await cp.execSync("legendary list-installed", {
+				stdio: "pipe",
+			});
+		} catch (e) {
+			console.error("Could not list installed games: " + e);
+			return;
+		}
+
+		let gamesOutput = output
 			.toString()
 			.replaceAll(/[^\x00-\x7F]/g, "")
 			.split("\n")
