@@ -7,7 +7,7 @@ module.exports = async () => {
 	cacheObj = {};
 	let cachePath = await configObj.getConfig(true);
 	cachePath += "cache.json";
-	let cacheExists = await fs.existsSync(cachePath);
+	const cacheExists = await fs.existsSync(cachePath);
 	if (cacheExists) {
 		console.log("Deleting cache file...");
 		await fs.unlinkSync(cachePath);

@@ -23,8 +23,8 @@ module.exports = async () => {
 						let regex = /^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm;
 						let matchRegex = regex.test(val.replaceAll("/", "\\"));
 						if (matchRegex) return true;
-						else return "Type a valid path";
-					} else return "Type a valid path";
+					}
+					return "Type a valid path";
 				},
 			},
 		])
@@ -34,22 +34,19 @@ module.exports = async () => {
 	diskPath = diskPath.replaceAll("\\", "/").replaceAll("\\\\", "/");
 	diskPath =
 		diskPath.split(":")[0].toUpperCase() + ":" + diskPath.split(":")[1];
-	const confirm = await inquirer
-		.prompt([
-			{
-				type: "confirm",
-				name: "confirm",
-				message: `Are you sure that you want to import the game "${game}", located in "${diskPath}"?`,
-			},
-		])
-		.then((a) => {
-			return a.confirm;
-		});
-	if (confirm) {
-		console.log(`Importing "${game}"...`);
-		await cp.execSync(
-			`legendary import-game "${game}" "${diskPath}" --with-dlcs`,
-			{ stdio: "inherit" }
-		);
-	} else console.log("Operation aborted!");
+
+	const confirm = require("../utils/promptConfirmation")(
+		`import the game "${game}", located in "${diskPath}"`
+	);
+
+	if (!confirm) {
+		console.log("Operation aborted!");
+		return;
+	}
+
+	console.log(`Importing "${game}"...`);
+	await cp.execSync(
+		`legendary import-game "${game}" "${diskPath}" --with-dlcs`,
+		{ stdio: "inherit" }
+	);
 };

@@ -22,19 +22,18 @@ module.exports = async () => {
 		return;
 	}
 
-	let gameInfo = await cp
+	const gameInfo = await cp
 		.execSync(`legendary info "${game}"`, { stdio: "pipe" })
 		.toString()
 		.replaceAll("\\", "/")
 		.split("\n");
-	let diskPath;
-	gameInfo.forEach((line) => {
-		if (line.startsWith("- Install path: "))
-			diskPath = line.slice("- Install path: ".length, -1);
-	});
+
+	const diskPath = gameInfo
+		.find((line) => line.startWith("- Install path: "))
+		.slice("- Install path: ".length, -1);
 
 	// exit if folder is protected and is not elevated
-	require("../utils/elevationCheck.js")(diskPath, game);
+	if (!require("../utils/elevationCheck.js")(diskPath, game)) return;
 
 	console.log(`Updating "${game}" (${diskPath})...`);
 	await cp.execSync(`legendary update "${game}" -y`, {

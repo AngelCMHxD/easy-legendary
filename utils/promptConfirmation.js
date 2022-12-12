@@ -10,7 +10,7 @@ module.exports = async (action = "do this") => {
 			{
 				type: "confirm",
 				name: "confirm",
-				message: `Do you want to ${action}?`,
+				message: `Are you sure that you want to ${action}?`,
 				default: true,
 			},
 		])

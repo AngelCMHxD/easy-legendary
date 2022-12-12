@@ -4,7 +4,12 @@ module.exports = async (diskPath, game) => {
 	try {
 		await cp.execSync("net session", { stdio: "pipe" });
 	} catch (e) {
-		if (!elevated && ["c:/program files", "c:/windows"].some(p => diskPath.toLowerCase().startsWith(p))) {
+		if (
+			!elevated &&
+			["c:/program files", "c:/windows"].some((p) =>
+				diskPath.toLowerCase().startsWith(p)
+			)
+		) {
 			console.log(
 				`\x1b[31m[Error]\x1b[0m`,
 				`You are trying to update the game "${game}" located in "${diskPath}", which is a protected folder.
@@ -13,6 +18,8 @@ module.exports = async (diskPath, game) => {
 			);
 			await delay(20000);
 			process.exit(1);
+			return false;
 		}
 	}
+	return true;
 };

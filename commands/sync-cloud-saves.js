@@ -15,11 +15,14 @@ module.exports = async () => {
 	console.log("Syncing online saves with Epic Online Services...");
 	await cp.execSync("legendary sync-saves -y", { stdio: "pipe" });
 	await cp.execSync("legendary download-saves -y", { stdio: "pipe" });
-	if (confirmCorrupted)
+
+	if (!confirmCorrupted)
+		console.log("Skipped deleting corrupted online saves.");
+	else {
 		// This DOESN'T delete your saves, only your corrupted ones
 		await cp.execSync("legendary clean-saves -y", {
 			stdio: "pipe",
 		});
-	else console.log("Skipped deleting corrupted online saves.");
+	}
 	console.log("Saves synchronized!");
 };
