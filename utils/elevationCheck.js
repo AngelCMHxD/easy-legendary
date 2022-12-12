@@ -5,7 +5,6 @@ module.exports = async (diskPath, game) => {
 		await cp.execSync("net session", { stdio: "pipe" });
 	} catch (e) {
 		if (
-			!elevated &&
 			["c:/program files", "c:/windows"].some((p) =>
 				diskPath.toLowerCase().startsWith(p)
 			)
@@ -18,7 +17,6 @@ module.exports = async (diskPath, game) => {
 			);
 			await delay(20000);
 			process.exit(1);
-			return false;
 		}
 	}
 	return true;

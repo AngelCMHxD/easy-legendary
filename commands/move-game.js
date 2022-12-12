@@ -57,9 +57,6 @@ module.exports = async () => {
 	// exit if folder is protected and is not elevated
 	if (!(await require("../utils/elevationCheck.js")(diskPath, game))) return;
 
-	// exit if folder is protected and is not elevated
-	if (!(await require("../utils/elevationCheck.js")(diskPath, game))) return;
-
 	await cp.execSync(`legendary move "${game}" "${diskPath}" -y`, {
 		encoding: "utf-8",
 		stdio: "inherit",

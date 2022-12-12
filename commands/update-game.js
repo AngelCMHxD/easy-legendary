@@ -8,12 +8,11 @@ inquirer.registerPrompt(
 module.exports = async () => {
 	const games = await require("../utils/searchInstalledGames.js")();
 
-	const game = await require("../utils/promptGame")("update");
+	const game = await require("../utils/promptGame")(games, "update");
 
 	if (game === "Select this item to exit...") return;
 
 	const confirm = await require("../utils/promptConfirmation")(
-		games,
 		`update "${game}"`
 	);
 
@@ -29,7 +28,7 @@ module.exports = async () => {
 		.split("\n");
 
 	const diskPath = gameInfo
-		.find((line) => line.startWith("- Install path: "))
+		.find((line) => line.startsWith("- Install path: "))
 		.slice("- Install path: ".length, -1);
 
 	// exit if folder is protected and is not elevated
