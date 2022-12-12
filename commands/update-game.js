@@ -33,7 +33,7 @@ module.exports = async () => {
 		.slice("- Install path: ".length, -1);
 
 	// exit if folder is protected and is not elevated
-	if (!require("../utils/elevationCheck.js")(diskPath, game)) return;
+	if (!(await require("../utils/elevationCheck.js")(diskPath, game))) return;
 
 	console.log(`Updating "${game}" (${diskPath})...`);
 	await cp.execSync(`legendary update "${game}" -y`, {

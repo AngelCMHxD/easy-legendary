@@ -77,7 +77,7 @@ module.exports = async () => {
 	}
 
 	// exit if folder is protected and is not elevated
-	if (!require("../utils/elevationCheck.js")(diskPath, game)) return;
+	if (!(await require("../utils/elevationCheck.js")(diskPath, game))) return;
 
 	console.log(`Installing ${game}...`);
 	console.log(

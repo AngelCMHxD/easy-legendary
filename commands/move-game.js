@@ -55,21 +55,10 @@ module.exports = async () => {
 	console.log(`Moving game "${game}" to "${diskPath}"...`);
 
 	// exit if folder is protected and is not elevated
-	if (!require("../utils/elevationCheck.js")(diskPath, game)) return;
-
-	let gameInfo = await cp
-		.execSync(`legendary info "${game}"`, { stdio: "pipe" })
-		.toString()
-		.replaceAll("\\", "/")
-		.split("\n");
-	let initialDiskPath;
-	gameInfo.forEach((line) => {
-		if (line.startsWith("- Install path: "))
-			initialDiskPath = line.slice("- Install path: ".length, -1);
-	});
+	if (!(await require("../utils/elevationCheck.js")(diskPath, game))) return;
 
 	// exit if folder is protected and is not elevated
-	require("../utils/elevationCheck.js")(initialDiskPath, game);
+	if (!(await require("../utils/elevationCheck.js")(diskPath, game))) return;
 
 	await cp.execSync(`legendary move "${game}" "${diskPath}" -y`, {
 		encoding: "utf-8",
