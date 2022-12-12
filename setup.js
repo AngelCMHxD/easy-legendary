@@ -2,7 +2,7 @@ const cp = require("child_process");
 const fs = require("fs");
 const fetch = require("node-fetch");
 const inquirer = require("inquirer");
-global.version = "1.4.1";
+global.version = "1.4.2";
 global.delay = (ms) => new Promise((res) => setTimeout(res, ms));
 global.cacheObj = {};
 global.clearLastLine = () => {
