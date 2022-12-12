@@ -19,6 +19,5 @@ module.exports = async () => {
 			);
 	}
 
-	cacheObj.ownedGamesLog = games;
 	return games;
 };

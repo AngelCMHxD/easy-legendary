@@ -35,7 +35,7 @@ module.exports = async () => {
 	diskPath =
 		diskPath.split(":")[0].toUpperCase() + ":" + diskPath.split(":")[1];
 
-	const confirm = require("../utils/promptConfirmation")(
+	const confirm = await require("../utils/promptConfirmation")(
 		`import the game "${game}", located in "${diskPath}"`
 	);
 

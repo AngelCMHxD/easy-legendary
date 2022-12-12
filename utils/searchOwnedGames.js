@@ -6,6 +6,7 @@ module.exports = async () => {
 	let games = cacheObj.ownedGamesList;
 
 	if (!games) {
+		games = [];
 		let gamesOutput = cp
 			.execSync("legendary list-games", { stdio: "pipe" })
 			.toString()

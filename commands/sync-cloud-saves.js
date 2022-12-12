@@ -2,7 +2,7 @@ const cp = require("child_process");
 const inquirer = require("inquirer");
 
 module.exports = async () => {
-	const confirm = require("../utils/promptConfirmation")(
+	const confirm = await require("../utils/promptConfirmation")(
 		"sync your online saves"
 	);
 

@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const fuzzy = require("fuzzy");
 
 module.exports = async () => {
-	let games = cacheObj.installedGamesList;
+	let games = cacheObj.installedGamesList || [];
 
 	if (!games) {
 		let output;

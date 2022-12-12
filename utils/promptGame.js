@@ -9,7 +9,7 @@ module.exports = async (source, action = "do this to") => {
 		.prompt([
 			{
 				type: "autocomplete",
-				source,
+				source: source,
 				name: "game",
 				message: `Type the name of the game you want to ${action}:`,
 				emptyText: "Nothing here!",

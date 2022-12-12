@@ -12,7 +12,7 @@ module.exports = async () => {
 
 	if (game === "Select this item to exit...") return;
 
-	const confirm = require("../utils/promptConfirmation")(
+	const confirm = await require("../utils/promptConfirmation")(
 		games,
 		`update "${game}"`
 	);

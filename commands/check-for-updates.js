@@ -81,7 +81,7 @@ module.exports = async () => {
 		locatedMainDir = process.argv[1].split("\\");
 	}
 
-	const confirm = require("../utils/promptConfirmation")(
+	const confirm = await require("../utils/promptConfirmation")(
 		`update to v${update}`
 	);
 

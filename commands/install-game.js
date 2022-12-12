@@ -65,7 +65,7 @@ module.exports = async () => {
 	let gamePath = diskPath + "/" + game;
 	gamePath = gamePath.replaceAll("//", "/");
 
-	const confirm = require("../utils/promptConfirmation")(
+	const confirm = await require("../utils/promptConfirmation")(
 		`install "${game}" in "${gamePath}"`
 	);
 
