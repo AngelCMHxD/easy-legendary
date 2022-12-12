@@ -3,9 +3,9 @@ const inquirer = require("inquirer");
 const fuzzy = require("fuzzy");
 
 module.exports = async () => {
-	let games = [];
+	let games = cacheObj.ownedGamesList;
 
-	if (!cacheObj.ownedGamesList) {
+	if (!games) {
 		let gamesOutput = cp.execSync("legendary list-games", { stdio: "pipe" })
 			.toString()
 			.replaceAll(/[^\x00-\x7F]/g, "")
@@ -24,7 +24,7 @@ module.exports = async () => {
 			games.push(game);
 		});
 		cacheObj.ownedGamesList = games;
-	} else games = cacheObj.ownedGamesList;
+	};
 
 	if (!games.includes("Select this item to exit..."))
 		games.unshift("Select this item to exit...");

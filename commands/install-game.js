@@ -1,31 +1,9 @@
 const cp = require("child_process");
-const inquirer = require("inquirer");
-inquirer.registerPrompt(
-	"autocomplete",
-	require("inquirer-autocomplete-prompt")
-);
 
 module.exports = async () => {
-	const searchGames = await require("../utils/searchOwnedGames.js")();
+	const games = await require("../utils/searchOwnedGames.js")();
 
-	const game = await inquirer
-		.prompt([
-			{
-				type: "autocomplete",
-				source: searchGames,
-				name: "game",
-				message: "Type the name of the game you want to install:",
-				emptyText: "Nothing here!",
-				pageSize: 10,
-				loop: false,
-				validate: function (val) {
-					return val ? true : "Select a valid game!";
-				},
-			},
-		])
-		.then((a) => {
-			return a.game;
-		});
+	const game = await require("../utils/promptGame")(games, "install");
 
 	if (game === "Select this item to exit...") return;
 
@@ -45,11 +23,16 @@ module.exports = async () => {
 					message: `Where do you want to install the game?`,
 					validate: (val) => {
 						if (val) {
-							let regex = /^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm;
-							let matchRegex = regex.test(val.replaceAll("/", "\\"));
+							let regex =
+								/^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm;
+							let matchRegex = regex.test(
+								val.replaceAll("/", "\\")
+							);
 							if (matchRegex) return true;
 							else {
-								let matchRegex = regex.test(val.replaceAll("/", "\\") + "\\");
+								let matchRegex = regex.test(
+									val.replaceAll("/", "\\") + "\\"
+								);
 								if (matchRegex) return true;
 								else return "Type a valid path";
 							}
@@ -80,7 +63,7 @@ module.exports = async () => {
 			return a.confirm;
 		});
 
-	if (!confirm) return console.log("Installation canceled!");
+	if (!confirm) return console.log("Installation cancelled!");
 
 	if (!unfinishedDownload) {
 		unfinishedDownloads.push({ name: game, diskPath: diskPath });
