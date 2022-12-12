@@ -6,45 +6,24 @@ inquirer.registerPrompt(
 );
 
 module.exports = async () => {
-	const searchGames = await require("../utils/searchInstalledGames.js")();
+	const games = await require("../utils/searchInstalledGames.js")();
 
-	const game = await inquirer
-		.prompt([
-			{
-				type: "autocomplete",
-				source: searchGames,
-				name: "game",
-				message: "Type the name of the game you want to uninstall:",
-				emptyText: "Nothing here!",
-				pageSize: 10,
-				loop: false,
-				validate: function (val) {
-					return val ? true : "Select a valid game!";
-				},
-			},
-		])
-		.then((a) => {
-			return a.game;
-		});
+	const game = await require("../utils/promptGame")(games, "uninstall");
 
 	if (game === "Select this item to exit...") return;
 
-	const confirm = await inquirer
-		.prompt([
-			{
-				type: "confirm",
-				name: "confirm",
-				message: `Are you sure that you want to uninstall "${game}"?`,
-				default: false,
-			},
-		])
-		.then((a) => {
-			return a.confirm;
-		});
+	const confirm = await require("../utils/promptConfirmation")(
+		`uninstall "${game}"`
+	);
 
-	if (confirm) {
-		console.log(`Uninstalling ${game}...`);
-		await cp.execSync(`legendary uninstall "${game}" -y`, { stdio: "pipe" });
-		console.log("Game uninstalled!");
-	} else console.log("Operation canceled!");
+	if (!confirm) {
+		console.log("Operation cancelled!");
+		return;
+	}
+
+	console.log(`Uninstalling ${game}...`);
+	await cp.execSync(`legendary uninstall "${game}" -y`, {
+		stdio: "pipe",
+	});
+	console.log("Game uninstalled!");
 };

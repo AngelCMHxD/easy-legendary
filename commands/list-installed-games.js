@@ -1,4 +1,4 @@
 module.exports = async () => {
-	let games = await require("../utils/getInstalledGames")();
+	const games = await require("../utils/getInstalledGames")();
 	console.log(games);
 };

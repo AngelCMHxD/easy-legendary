@@ -61,32 +61,29 @@ module.exports = async () => {
 	let update = await isUpdateAvailable();
 
 	if (!update)
-		return console.log("There isn't any update available! You are up to date!");
+		return console.log(
+			"There isn't any update available! You are up to date!"
+		);
 
 	console.log(`There is an update available! (${update})`);
 	console.log(
 		"Changelog: https://github.com/AngelCMHxD/easy-legendary/releases/tag/" +
-		update
+			update
 	);
 
 	let locatedMainDir;
-	if (getCompiled()) {
+	if (!getCompiled()) {
+		locatedMainDir = process.argv0.split("\\");
+	} else {
 		console.log(
 			"You are using a uncompiled version of easy-legendary. Take into account that the updated version of easy-legendary will be compiled."
 		);
 		locatedMainDir = process.argv[1].split("\\");
-	} else locatedMainDir = process.argv0.split("\\");
-	const confirm = await inquirer
-		.prompt([
-			{
-				type: "confirm",
-				name: "confirm",
-				message: `Are you sure that you want to update to v${update}?`,
-			},
-		])
-		.then((a) => {
-			return a.confirm;
-		});
+	}
+
+	const confirm = await require("../utils/promptConfirmation")(
+		`update to v${update}`
+	);
 
 	if (!confirm) return console.log("Update aborted!");
 
@@ -112,7 +109,10 @@ module.exports = async () => {
 		if (typeof download === String) console.log("Error: " + download);
 		return;
 	}
-	await fs.renameSync(path + "easy-legendary_updated.zip.downloading", path + "easy-legendary_updated.zip");
+	await fs.renameSync(
+		path + "easy-legendary_updated.zip.downloading",
+		path + "easy-legendary_updated.zip"
+	);
 	console.log("Update downloaded!");
 	console.log("Unzipping file...");
 
@@ -120,7 +120,10 @@ module.exports = async () => {
 		.createReadStream(path + "easy-legendary_updated.zip")
 		.pipe(unzipper.Extract({ path: path }))
 		.promise();
-	await fs.renameSync(path + "easy-legendary", path + "easy-legendary_updated");
+	await fs.renameSync(
+		path + "easy-legendary",
+		path + "easy-legendary_updated"
+	);
 	console.log("File unzipped!");
 	console.log("Cleaning up...");
 	await fs.unlinkSync(path + "easy-legendary_updated.zip");
