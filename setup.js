@@ -50,7 +50,7 @@ module.exports = async () => {
 
 	if (3 <= parseInt(installedVersion[0])) {
 		if (parseInt(installedVersion[0]) === 3) {
-			if (8 <= parseInt(installedVersion[1])) compatible = true;
+			if (9 <= parseInt(installedVersion[1])) compatible = true;
 			else compatible = false;
 		} else compatible = true;
 	} else compatible = false;
@@ -63,7 +63,7 @@ module.exports = async () => {
 	else {
 		console.log(
 			"\x1b[31m[Error]\x1b[0m",
-			`Incompatible Python detected (${py_ver}), you need Python 3.8+ to run this program! Exiting in 5 seconds...`
+			`Incompatible Python detected (${py_ver}), you need Python 3.9+ to run this program! Exiting in 5 seconds...`
 		);
 		await delay(5000);
 		process.exit(1);
