@@ -1,7 +1,7 @@
 const cp = require("child_process");
 
 module.exports = async () => {
-	const legendaryPath = cacheObj.legendaryPath;
+	let legendaryPath = cacheObj.legendaryPath;
 	if (legendaryPath) return legendaryPath;
 
 	const pipScripts = await cp.execSync(`pip show legendary-gl`, {
@@ -13,6 +13,7 @@ module.exports = async () => {
 		legendaryPath =
 			packagesPath.split("\\").slice(0, -2).join("\\") +
 			"\\scripts\\legendary.exe";
+		cacheObj.legendaryPath = legendaryPath;
 	});
 
 	return legendaryPath;
