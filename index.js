@@ -44,6 +44,17 @@ function searchCommands(answers, input) {
 	});
 }
 
+async function promptReturn() {
+	return inquirer.prompt([
+		{
+			name: "a",
+			type: "password",
+			mask: "",
+			message: "Press enter to return to main menu...",
+		},
+	]);
+}
+
 async function loop() {
 	console.log("\n\x1b[32m\x1b[1m -- Main menu --\x1b[0m");
 	const selected = await inquirer
@@ -69,14 +80,7 @@ async function loop() {
 		(c) => commands[c] == selected
 	)}`)();
 	console.log("\n");
-	await inquirer.prompt([
-		{
-			name: "a",
-			type: "password",
-			mask: "",
-			message: "Press enter to return to main menu...",
-		},
-	]);
+	await promptReturn();
 	console.clear();
 	await loop();
 }
@@ -95,9 +99,14 @@ async function loop() {
 process.on("uncaughtException", async (err) => {
 	console.log("\x1b[31m[ERROR]\x1b[0m");
 	console.log(err);
+	await promptReturn();
+	console.clear();
+	await loop();
+	/*
 	console.log(
 		"\x1b[36m[Info]\x1b[0m Easy Legendary will close in 5 seconds..."
 	);
 	await delay(5000);
 	process.exit(1);
+	*/
 });
