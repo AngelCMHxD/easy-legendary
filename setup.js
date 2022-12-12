@@ -260,11 +260,11 @@ global.startCaching = async () => {
 		"\x1b[36m[Cache]\x1b[0m",
 		"(1/6) Caching installed games list..."
 	);
-	await require("./utils/searchInstalledGames")();
+	await require("./utils/searchGames.js")("installed");
 
 	clearLastLine();
 	console.log("\x1b[36m[Cache]\x1b[0m", "(2/6) Caching owned games list...");
-	await require("./utils/searchOwnedGames")();
+	await require("./utils/searchGames.js")("owned");
 
 	clearLastLine();
 	console.log(

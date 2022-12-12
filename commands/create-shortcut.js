@@ -24,7 +24,7 @@ module.exports = async () => {
 		return;
 	}
 
-	const games = await require("../utils/searchInstalledGames.js")();
+	const games = await require("../utils/searchGames.js")("installed");
 
 	const game = await require("../utils/promptGame")(
 		games,

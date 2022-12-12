@@ -6,7 +6,7 @@ inquirer.registerPrompt(
 );
 
 module.exports = async () => {
-	const games = await require("../utils/searchOwnedGames.js")();
+	const games = await require("../utils/searchGames.js")("owned");
 
 	console.log(
 		"Due to limitations, you only can see info of games that you own!"
