@@ -1,6 +1,6 @@
 {
 	"name": "easy-legendary",
-	"version": "0.1.0",
+	"version": "1.4.2",
 	"description": "easy-legendary is a tool that execute legendary-gl commands for you, goodbye to executing commands!",
 	"main": "index.js",
 	"scripts": {
