@@ -17,7 +17,5 @@ module.exports = async () => {
 
 	await cp.exec(`explorer "${gameInfo.directory}"`);
 
-	console.log(
-		"A file explorer window should have opened with the game's files."
-	);
+	console.log(Locale.get("FILE_EXPLORER_WINDOW"));
 };

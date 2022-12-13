@@ -1,5 +1,6 @@
 const cp = require("child_process");
 const PATH_REGEX = /^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm;
+const Locale = require("./locale");
 
 async function promptDiskPath() {
 	return inquirer

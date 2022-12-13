@@ -6,7 +6,8 @@ inquirer.registerPrompt(
 	"autocomplete",
 	require("inquirer-autocomplete-prompt")
 );
-const commands = {
+
+let commands = {
 	"list-owned-games": "LIST_OWNED_GAMES",
 	"list-installed-games": "LIST_INSTALLED_GAMES",
 	"start-game": "START_GAME",
@@ -26,8 +27,13 @@ const commands = {
 	exit: "EXIT",
 };
 
+commands = Object.fromEntries(
+	// translate each command
+	Object.entries(commands).map((c) => [c[0], Locale.get(c[1]) + "..."])
+);
+
 function searchCommands(_, input = "") {
-	const cmds = Object.values(commands).map((c) => Locale.get(c) + "...");
+	const cmds = Object.values(commands);
 	var fuzzyResult = fuzzy.filter(input, cmds);
 	const results = fuzzyResult.map((rs) => rs.original);
 
@@ -94,7 +100,7 @@ async function loop() {
 			)} ${Locale.get("UNSTABLE_BUILD_WARNING")}`
 		);
 
-	await setup();
+	//await setup();
 	await loop();
 })();
 

@@ -33,11 +33,10 @@ module.exports = async () => {
 
 	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
-	console.log("Searching were is legendary-gl installed...");
-
+	console.log("Searching where legendary-gl is installed...");
 	const legendaryPath = await require("../utils/getLegendaryPath")();
 
-	console.log("Searching were is the game installed...");
+	console.log("Searching where the game is installed...");
 	const gameInfo = cp
 		.execSync(`legendary info "${game}"`, { stdio: "pipe" })
 		.toString()

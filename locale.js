@@ -49,4 +49,6 @@ load();
 
 module.exports = {
 	get,
+	languages,
+	CURRENT_LANGUAGE,
 };
