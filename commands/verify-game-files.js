@@ -13,7 +13,7 @@ module.exports = async () => {
 		"verify the files of"
 	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	const confirm = await require("../utils/promptConfirmation")(
 		`verify the game files of "${game}"`

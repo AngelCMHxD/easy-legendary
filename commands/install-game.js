@@ -21,7 +21,7 @@ async function promptDiskPath() {
 							if (matched) return true;
 						}
 					}
-					return "Type a valid path";
+					return Locale.get("TYPE_A_VALID_PATH");
 				},
 			},
 		])
@@ -45,7 +45,7 @@ module.exports = async () => {
 
 	const game = await require("../utils/promptGame")(games, "install");
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	let config = await configObj.getConfig();
 	let unfinishedDownload = false;

@@ -10,7 +10,7 @@ module.exports = async () => {
 
 	const game = await require("../utils/promptGame")(games, "uninstall");
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	const confirm = await require("../utils/promptConfirmation")(
 		`uninstall "${game}"`

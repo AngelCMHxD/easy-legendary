@@ -27,7 +27,7 @@ const commands = {
 };
 
 function searchCommands(_, input = "") {
-	const cmds = Object.values(commands).map((c) => c + "...");
+	const cmds = Object.values(commands).map((c) => Locale.get(c) + "...");
 	var fuzzyResult = fuzzy.filter(input, cmds);
 	const results = fuzzyResult.map((rs) => rs.original);
 
@@ -44,7 +44,7 @@ async function promptReturn() {
 			name: "a",
 			type: "password",
 			mask: "",
-			message: "Press enter to return to main menu...",
+			message: Locale.get("PRESS_ENTER_TO_RETURN_TO_MAIN_MENU"),
 		},
 	]);
 }
@@ -55,7 +55,7 @@ async function promptReturn() {
 			name: "a",
 			type: "password",
 			mask: "",
-			message: "Press enter to return to main menu...",
+			message: Locale.get("PRESS_ENTER_TO_RETURN_TO_MAIN_MENU"),
 		},
 	]);
 }
@@ -110,7 +110,7 @@ async function loop() {
 })();
 
 process.on("uncaughtException", async (err) => {
-	console.log("\x1b[31m[ERROR]\x1b[0m");
+	console.log(`\x1b[31m[${Locale.get("ERROR")}]\x1b[0m`);
 	console.log(err);
 	await promptReturn();
 	console.clear();

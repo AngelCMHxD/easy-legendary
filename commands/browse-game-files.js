@@ -10,10 +10,10 @@ module.exports = async () => {
 		Locale.get("FIND_THE_FILES_OF")
 	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	let gameInfo = await require("../utils/isInstalled.js")(game);
-	if (!gameInfo) return console.log("Game not found!");
+	if (!gameInfo) return console.log(Locale.get("GAME_NOT_FOUND"));
 
 	await cp.exec(`explorer "${gameInfo.directory}"`);
 

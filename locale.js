@@ -5,10 +5,10 @@ const languageFolders = fs.readdirSync(localePath);
 
 const languages = {};
 const CURRENT_LANGUAGE = "es";
-const LANGUAGE_PRIORITIES = ["en", "es"];
 
 function get(loc, ...params) {
 	let msg = languages[CURRENT_LANGUAGE][loc];
+	if (!msg) msg = languages["en"][loc]; // fallback to english
 	let i = 0;
 	for (const param of params) {
 		msg = msg.replaceAll(`{${i}}`, param);
@@ -23,10 +23,10 @@ function load() {
 
 		/*
 
-        this was for multiple files for each language,
-        but AngelCMHxD didn't want this!
-        so I commented this part of the code
-        in case it's needed in the future.
+		this was for multiple files for each language,
+		but AngelCMHxD didn't want this!
+		so I commented this part of the code
+		in case it's needed in the future.
 
 		languages[language] = {};
 
@@ -46,9 +46,6 @@ function load() {
 }
 
 load();
-
-console.log(languages);
-console.log(get("APP_NAME"));
 
 module.exports = {
 	get,

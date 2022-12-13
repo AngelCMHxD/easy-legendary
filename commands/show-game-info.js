@@ -17,7 +17,7 @@ module.exports = async () => {
 		Locale.get("SEE_INFO_FOR")
 	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	const info = await cp.execSync(`legendary info "${game}"`, {
 		stdio: "pipe",

@@ -31,7 +31,7 @@ module.exports = async () => {
 		Locale.get("MAKE_A_SHORTCUT_FOR")
 	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	console.log("Searching were is legendary-gl installed...");
 

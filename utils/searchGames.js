@@ -55,8 +55,8 @@ module.exports = async (filter) => {
 		save(games);
 	}
 
-	if (!games.includes("Select this item to exit..."))
-		games.unshift("Select this item to exit...");
+	if (!games.includes(Locale.get("SELECT_THIS_ITEM_TO_EXIT")))
+		games.unshift(Locale.get("SELECT_THIS_ITEM_TO_EXIT"));
 
 	return function searchGames(answers, input) {
 		input = input || "";
