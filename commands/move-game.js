@@ -45,7 +45,7 @@ module.exports = async () => {
 	diskPathwGame = diskPathwGame.replaceAll("//", "/");
 
 	const confirm = await require("../utils/promptConfirmation")(
-		`move the game "${game}" to "${diskPathwGame}"`
+		Locale.get("MOVE_GAME_TO_PATH", game, diskPathwGame)
 	);
 
 	if (!confirm) {

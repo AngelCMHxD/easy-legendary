@@ -5,7 +5,7 @@ module.exports = async () => {
 
 	const game = await require("../utils/promptGame")(
 		games,
-		"find the files of"
+		Locale.get("FIND_THE_FILES_OF")
 	);
 
 	if (game === "Select this item to exit...") return;

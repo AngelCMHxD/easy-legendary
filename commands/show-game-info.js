@@ -12,7 +12,10 @@ module.exports = async () => {
 		"Due to limitations, you only can see info of games that you own!"
 	);
 
-	const game = await require("../utils/promptGame")(games, "see info for");
+	const game = await require("../utils/promptGame")(
+		games,
+		Locale.get("SEE_INFO_FOR")
+	);
 
 	if (game === "Select this item to exit...") return;
 

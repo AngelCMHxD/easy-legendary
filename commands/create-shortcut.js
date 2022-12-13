@@ -28,7 +28,7 @@ module.exports = async () => {
 
 	const game = await require("../utils/promptGame")(
 		games,
-		"make a shortcut for"
+		Locale.get("MAKE_A_SHORTCUT_FOR")
 	);
 
 	if (game === "Select this item to exit...") return;

@@ -66,7 +66,7 @@ module.exports = async () => {
 	gamePath = gamePath.replaceAll("//", "/");
 
 	const confirm = await require("../utils/promptConfirmation")(
-		`install "${game}" in "${gamePath}"`
+		Locale.get("INSTALL_GAME_IN_PATH", game, gamePath)
 	);
 
 	if (!confirm) return console.log("Installation cancelled!");
