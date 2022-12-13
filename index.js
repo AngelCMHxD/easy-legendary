@@ -49,6 +49,17 @@ async function promptReturn() {
 	]);
 }
 
+async function promptReturn() {
+	return inquirer.prompt([
+		{
+			name: "a",
+			type: "password",
+			mask: "",
+			message: "Press enter to return to main menu...",
+		},
+	]);
+}
+
 async function loop() {
 	console.log(`\n\x1b[32m\x1b[1m -- ${Locale.get("MAIN_MENU")} --\x1b[0m`);
 	const selected = await inquirer

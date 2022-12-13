@@ -1,7 +1,9 @@
 const cp = require("child_process");
 
 module.exports = async () => {
-	const games = await require("../utils/searchInstalledGames.js")();
+	const games = await require("../utils/searchInstalledGames.js")(
+		"installed"
+	);
 
 	const game = await require("../utils/promptGame")(
 		games,

@@ -2,18 +2,36 @@ const cp = require("child_process");
 const inquirer = require("inquirer");
 const fuzzy = require("fuzzy");
 
-module.exports = async () => {
-	let games = cacheObj.installedGamesList;
+module.exports = async (filter) => {
+	let games;
+	let sub;
+	let save;
+	switch (filter) {
+		case "installed":
+			games = cacheObj.installedGamesList;
+			sub = "list-installed";
+			save = (updated) => {
+				cacheObj.installedGamesList = updated;
+			};
+			break;
+		case "owned":
+			games = cacheObj.installedGamesList;
+			sub = "list-games";
+			save = (updated) => {
+				cacheObj.ownedGamesList = updated;
+			};
+			break;
+	}
 
 	if (!games) {
 		games = [];
 		let output;
 		try {
-			output = await cp.execSync("legendary list-installed", {
+			output = await cp.execSync("legendary " + sub, {
 				stdio: "pipe",
 			});
 		} catch (e) {
-			console.error("Could not list installed games: " + e);
+			console.error("Could not list games: " + e);
 			return;
 		}
 
@@ -34,7 +52,7 @@ module.exports = async () => {
 			game = game.split(" (App name: ")[0];
 			games.push(game);
 		});
-		cacheObj.installedGamesList = games;
+		save(games);
 	}
 
 	if (!games.includes("Select this item to exit..."))

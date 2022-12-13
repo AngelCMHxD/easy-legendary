@@ -6,7 +6,7 @@ inquirer.registerPrompt(
 );
 
 module.exports = async () => {
-	const games = await require("../utils/searchOwnedGames.js")();
+	const games = await require("../utils/searchGames.js")("owned");
 
 	const game = await require("../utils/promptGame")(games, "import");
 
