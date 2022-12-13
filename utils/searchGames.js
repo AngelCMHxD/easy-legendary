@@ -1,6 +1,7 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
 const fuzzy = require("fuzzy");
+const Locale = require("../locale");
 
 module.exports = async (filter) => {
 	let games;

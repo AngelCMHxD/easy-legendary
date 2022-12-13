@@ -1,4 +1,5 @@
 const cp = require("child_process");
+const Locale = require("../locale");
 
 module.exports = async (game) => {
 	let gameInfo;

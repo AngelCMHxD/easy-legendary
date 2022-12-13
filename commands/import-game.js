@@ -1,6 +1,6 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
-const Locale = require("./locale");
+const Locale = require("../locale");
 
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("owned");

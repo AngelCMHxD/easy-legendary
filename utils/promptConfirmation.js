@@ -1,8 +1,5 @@
 const inquirer = require("inquirer");
-inquirer.registerPrompt(
-	"autocomplete",
-	require("inquirer-autocomplete-prompt")
-);
+const Locale = require("../locale");
 
 module.exports = async (action = "do this") => {
 	return inquirer

@@ -12,6 +12,7 @@ MAKE_A_SHORTCUT_FOR: "hacer un acceso directo para"
 INSTALL_GAME_IN_PATH: 'instalar "{0}" en "{1}"'
 MOVE_GAME_TO_PATH: 'mover el juego "{0}" hacia "{1}"'
 SEE_INFO_FOR: "ver la información para"
+UPDATE_TO_VERSION: "update to {0}"
 
 LIST_OWNED_GAMES: "Catalogar los juegos de los cuales eres dueño"
 LIST_INSTALLED_GAMES: "Catalogar los juegos instalados o importados"
@@ -36,3 +37,34 @@ SELECT_THIS_ITEM_TO_EXIT: "Selecciona este item para salir..."
 SAVING_CACHE: "Guardando la memoria intermedia en el disco..."
 GOODBYE: "¡Adiós!"
 TYPE_A_VALID_PATH: "Por favor escribe una ruta valida"
+GAME_NOT_FOUND: "Game not found!"
+
+FILE_EXPLORER_WINDOW: "Una ventana del explorador de Windows se debería haber abierto en la ubicación de los archivos juego."
+UP_TO_DATE: "¡No hay ninguna actualización disponible! ¡Estás actualizado!"
+UPDATE_AVAILABLE: "¡Hay una actualización disponible!"
+CHANGELOG: "Registro de cambios"
+USING_UNCOMPILED_VERSION: "Estás usando una versión no compilada de Fácil Legendario."
+UPDATED_VERSION_COMPILED: "Ten en cuenta que la versión actualizada de Fácil Legendario estará compilada."
+UPDATE_ABORTED: "¡Actualización abortada!"
+UPDATE_CANCELLED: "¡Actualización cancelada!"
+DOWNLOADING_FILE: 'Descargando archivo "{0}"...'
+UPDATED: "Actualizado"
+DOWNLOADING: "Descargando"
+
+RESPONSE_CODE_NOT_OK: "El código de respuesta no está bien"
+UPDATE_DOWNLOADED: "¡Se ha descargado la actualización!"
+UNZIPPING_FILE: "Descromprimiendo archivo..."
+FILE_UNZIPPED: "¡Se ha descomprimido el archivo!"
+DOWNLOAD_FAILED: "¡La descarga ha fallado!"
+ERROR: "Error"
+SETUP: "Instalación"
+INFO: "Información"
+CACHE: "Memoria"
+CLEANING_UP: "Limpiando..."
+UPDATE_FINISHED: "¡La actualización se ha completado satisfactoriamente!"
+
+USE_ARROW_KEYS_OR_TYPE_TO_SEARCH: "Utiliza las flechas del teclado o escribe para buscar"
+
+CHECKING_PYTHON_VERSION: "Comprobando la versión de Python..."
+TYPE_THE_NAME_OF_THE_GAME_YOU_WANT_TO_ACTION: "Escribe el nombre del juego al cual quieres {0}"
+SELECT_A_vALID_GAME: "¡Elije un juego valido!"

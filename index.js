@@ -65,6 +65,7 @@ async function loop() {
 				name: "action",
 				message: Locale.get("SELECT_ACTION"),
 				emptyText: Locale.get("EMPTY_PLACEHOLDER"),
+				suggestMessage: Locale.get("USE_ARROW_KEYS_OR_TYPE_TO_SEARCH"),
 				pageSize: 20,
 				loop: false,
 				validate: function (val) {
@@ -100,7 +101,7 @@ async function loop() {
 			)} ${Locale.get("UNSTABLE_BUILD_WARNING")}`
 		);
 
-	//await setup();
+	await setup();
 	await loop();
 })();
 

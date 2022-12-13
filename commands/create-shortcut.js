@@ -2,6 +2,7 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const cp = require("child_process");
 const createShortcut = require("create-desktop-shortcuts");
+const Locale = require("../locale");
 inquirer.registerPrompt(
 	"autocomplete",
 	require("inquirer-autocomplete-prompt")

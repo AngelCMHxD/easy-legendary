@@ -1,9 +1,6 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
-inquirer.registerPrompt(
-	"autocomplete",
-	require("inquirer-autocomplete-prompt")
-);
+const Locale = require("../locale");
 
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("installed");

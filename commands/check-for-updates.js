@@ -3,6 +3,7 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const request = require("request");
 const unzipper = require("unzipper");
+const Locale = require("../locale");
 
 async function downloadFile(url, filename) {
 	const progressBar = new cliProgress.SingleBar(

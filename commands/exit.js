@@ -1,4 +1,4 @@
-const Locale = require("./locale");
+const Locale = require("../locale");
 
 module.exports = async () => {
 	console.log(Locale.get("SAVING_CACHE"));

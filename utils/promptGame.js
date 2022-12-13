@@ -1,8 +1,5 @@
 const inquirer = require("inquirer");
-inquirer.registerPrompt(
-	"autocomplete",
-	require("inquirer-autocomplete-prompt")
-);
+const Locale = require("../locale");
 
 module.exports = async (source, action = "do this to") => {
 	return inquirer
@@ -11,12 +8,16 @@ module.exports = async (source, action = "do this to") => {
 				type: "autocomplete",
 				source: source,
 				name: "game",
-				message: `Type the name of the game you want to ${action}:`,
-				emptyText: "Nothing here!",
+				message: Locale.get(
+					"TYPE_THE_NAME_OF_THE_GAME_YOU_WANT_TO_ACTION",
+					action
+				),
+				emptyText: Locale.get("EMPTY_PLACEHOLDER"),
+				suggestMessage: Locale.get("USE_ARROW_KEYS_OR_TYPE_TO_SEARCH"),
 				pageSize: 10,
 				loop: false,
 				validate: function (val) {
-					return val ? true : "Select a valid game!";
+					return val ? true : Locale.get("SELECT_A_VALID_GAME");
 				},
 			},
 		])

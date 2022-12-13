@@ -7,8 +7,10 @@ const languages = {};
 const CURRENT_LANGUAGE = "es";
 
 function get(loc, ...params) {
+	loc = loc.toUpperCase();
 	let msg = languages[CURRENT_LANGUAGE][loc];
 	if (!msg) msg = languages["en"][loc]; // fallback to english
+	if (!msg) return loc;
 	let i = 0;
 	for (const param of params) {
 		msg = msg.replaceAll(`{${i}}`, param);
