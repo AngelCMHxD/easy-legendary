@@ -16,7 +16,7 @@ module.exports = async (game) => {
 
 	const parsed = JSON.parse(gameInfo);
 	return {
-		executable: gameInfo.game_executable,
-		directory: gameInfo.game_directory,
+		executable: parsed.game_executable,
+		directory: parsed.game_directory,
 	};
 };
