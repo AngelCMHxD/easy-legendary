@@ -4,7 +4,7 @@ const localePath = path.join(require.main.path, "lang");
 const languageFolders = fs.readdirSync(localePath);
 
 const languages = {};
-const CURRENT_LANGUAGE = "es";
+const CURRENT_LANGUAGE = "es_ar";
 
 function getDescendantProp(obj, desc) {
 	var arr = desc.split(".");
@@ -15,6 +15,11 @@ function getDescendantProp(obj, desc) {
 function get(loc, ...params) {
 	loc = loc.toUpperCase();
 	let msg = getDescendantProp(languages[CURRENT_LANGUAGE], loc);
+	if (!msg) {
+		// fallback to base language
+		const base = languages[CURRENT_LANGUAGE]["BASE_LANGUAGE"];
+		msg = getDescendantProp(languages[base], loc);
+	}
 	if (!msg) msg = getDescendantProp(languages["en"], loc); // fallback to english
 	if (!msg) return loc;
 	let i = 0;

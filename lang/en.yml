@@ -24,7 +24,7 @@ ACTIONS:
     SHORTCUT: "make a shortcut for"
     INFO: "see info for"
     UPDATE_TO_VERSION: "update to {0}"
-    SYNC_GAMES: "Sync games with the Epic Games Launcher"
+    SYNC_GAMES: "sync games with the Epic Games Launcher"
     SYNC_ONLINE_SAVES: "sync your online saves"
     DELETE_CORRUPTED_ONLINE_SAVES: "delete corrupted online saves"
 

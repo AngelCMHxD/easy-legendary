@@ -3,16 +3,30 @@ WELCOME: "Bienvenido a {0}"
 APP_NAME: "Legendario Fácil"
 UNCOMPILED_VERSION_DETECTED: "Se detectó una versión decompilada de {0}."
 UNSTABLE_BUILD_WARNING: "Este artifacto puede llegar a ser inestable."
-SELECT_VALID_OPTION: "¡Selecciona una opción valida!"
+SELECT_VALID_OPTION: "¡Selecciona una opción válida!"
 EMPTY_PLACEHOLDER: "¡Nada por aquí!"
 SELECT_ACTION: "Selecciona qué quieres hacer:"
 
-FIND_THE_FILES_OF: "encontrar los archivos de"
-MAKE_A_SHORTCUT_FOR: "hacer un acceso directo para"
-INSTALL_GAME_IN_PATH: 'instalar "{0}" en "{1}"'
-MOVE_GAME_TO_PATH: 'mover el juego "{0}" hacia "{1}"'
-SEE_INFO_FOR: "ver la información para"
-UPDATE_TO_VERSION: "update to {0}"
+ACTIONS:
+    START: "iniciar"
+    IMPORT: "importar"
+    IMPORT_GAME_IN_PATH: 'importar el juego "{0}", localizado en "{1}"'
+    INSTALL: "instalar"
+    INSTALL_GAME_IN_PATH: 'instalar "{0}" en "{1}"'
+    MOVE_GAME_TO_PATH: 'mover el juego "{0}" hacia "{1}"'
+    UNINSTALL: "desinstalar"
+    UNINSTALL_GAME: "desinstalar {0}"
+    UPDATE: "actualizar"
+    MOVE: "mover"
+    VERIFY: "verfificar los archivos"
+    VERIFY_GAME: 'verificar los archivos de "{0}"'
+    FIND: "encontrar los archivos de"
+    SHORTCUT: "hacer un acceso directo para"
+    INFO: "ver información para"
+    UPDATE_TO_VERSION: "actualizar a la versión {0}"
+    SYNC_GAMES: "sincronizar los juegos con el Lanzador de Epic Games"
+    SYNC_ONLINE_SAVES: "sincronizar tus partidas guardadas en la nube"
+    DELETE_CORRUPTED_ONLINE_SAVES: "borrar las partidas corrompidas de la nube"
 
 LIST_OWNED_GAMES: "Catalogar los juegos de los cuales eres dueño"
 LIST_INSTALLED_GAMES: "Catalogar los juegos instalados o importados"
@@ -36,7 +50,7 @@ PRESS_ENTER_TO_RETURN_TO_MAIN_MENU: "Presiona enter para regresar al menú princ
 SELECT_THIS_ITEM_TO_EXIT: "Selecciona este item para salir..."
 SAVING_CACHE: "Guardando la memoria intermedia en el disco..."
 GOODBYE: "¡Adiós!"
-TYPE_A_VALID_PATH: "Por favor escribe una ruta valida"
+TYPE_A_VALID_PATH: "Por favor escribe una ruta válida"
 GAME_NOT_FOUND: "Game not found!"
 
 FILE_EXPLORER_WINDOW: "Una ventana del explorador de Windows se debería haber abierto en la ubicación de los archivos juego."
@@ -67,4 +81,4 @@ USE_ARROW_KEYS_OR_TYPE_TO_SEARCH: "Utiliza las flechas del teclado o escribe par
 
 CHECKING_PYTHON_VERSION: "Comprobando la versión de Python..."
 TYPE_THE_NAME_OF_THE_GAME_YOU_WANT_TO_ACTION: "Escribe el nombre del juego al cual quieres {0}"
-SELECT_A_vALID_GAME: "¡Elije un juego valido!"
+SELECT_A_vALID_GAME: "¡Elije un juego válido!"
