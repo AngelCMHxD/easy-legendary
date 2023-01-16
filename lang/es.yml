@@ -51,7 +51,7 @@ SELECT_THIS_ITEM_TO_EXIT: "Selecciona este item para salir..."
 SAVING_CACHE: "Guardando la memoria intermedia en el disco..."
 GOODBYE: "¡Adiós!"
 TYPE_A_VALID_PATH: "Por favor escribe una ruta válida"
-GAME_NOT_FOUND: "Game not found!"
+GAME_NOT_FOUND: "¡Juego no encontrado!"
 
 FILE_EXPLORER_WINDOW: "Una ventana del explorador de Windows se debería haber abierto en la ubicación de los archivos juego."
 UP_TO_DATE: "¡No hay ninguna actualización disponible! ¡Estás actualizado!"
