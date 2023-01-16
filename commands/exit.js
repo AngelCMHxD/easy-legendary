@@ -1,6 +1,8 @@
+const Locale = require("../locale");
+
 module.exports = async () => {
-	console.log("Saving cache...");
+	console.log(Locale.get("SAVING_CACHE"));
 	await writeCache();
-	console.log("Goodbye! o7");
+	console.log(Locale.get("GOODBYE") + " o7");
 	process.exit(1);
 };

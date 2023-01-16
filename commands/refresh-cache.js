@@ -1,5 +1,6 @@
 const cp = require("child_process");
 const fs = require("fs");
+const Locale = require("../locale");
 
 module.exports = async () => {
 	console.log("Starting cache cleanup...");

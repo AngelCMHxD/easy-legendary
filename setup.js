@@ -2,6 +2,7 @@ const cp = require("child_process");
 const fs = require("fs");
 const fetch = require("node-fetch");
 const inquirer = require("inquirer");
+const Locale = require("./locale");
 global.version = "1.4.2";
 global.delay = (ms) => new Promise((res) => setTimeout(res, ms));
 global.cacheObj = {};
@@ -28,16 +29,20 @@ let defaultConfig = {
 	unfinishedDownloads: [],
 };
 
+const SETUP_PREFIX = `\x1b[34m[${Locale.get("SETUP")}]\x1b[0m`;
+const ERROR_PREFIX = `\x1b[31m[${Locale.get("ERROR")}]\x1b[0m`;
+const INFO_PREFIX = `\x1b[36m[${Locale.get("INFO")}]\x1b[0m`;
+
 module.exports = async () => {
-	console.log("\x1b[34m[Setup]\x1b[0m", "Checking python version...");
+	console.log(SETUP_PREFIX, Locale.get("CHECKING_PYTHON_VERSION"));
 	let py_ver;
 	try {
-		result = await cp.execSync("py --version", { stdio: "pipe" }).toString();
+		result = cp.execSync("py --version", { stdio: "pipe" }).toString();
 		py_ver = result.slice(7, result.length - 2);
 	} catch (e) {
 		if (e.toString() === "Error: Command failed: py --version") {
 			console.log(
-				"\x1b[31m[Error]\x1b[0m",
+				ERROR_PREFIX,
 				"Python not installed! First install it in order to use this tool! (Remember to add it to the path)"
 			);
 			await delay(5000);
@@ -45,67 +50,54 @@ module.exports = async () => {
 		}
 	}
 
-	let installedVersion = py_ver.split(".");
-	let compatible;
+	let installedVersion = py_ver.split(".").map((i) => parseInt(i));
+	let compatible = true;
+	if (installedVersion[0] < 3 && installedVersion[1] < 9) compatible = false;
 
-	if (3 <= parseInt(installedVersion[0])) {
-		if (parseInt(installedVersion[0]) === 3) {
-			if (9 <= parseInt(installedVersion[1])) compatible = true;
-			else compatible = false;
-		} else compatible = true;
-	} else compatible = false;
-
-	if (compatible)
+	if (!compatible) {
 		console.log(
-			"\x1b[34m[Setup]\x1b[0m",
-			`Compatible Python detected (${py_ver})! Proceding...`
-		);
-	else {
-		console.log(
-			"\x1b[31m[Error]\x1b[0m",
+			ERROR_PREFIX,
 			`Incompatible Python detected (${py_ver}), you need Python 3.9+ to run this program! Exiting in 5 seconds...`
 		);
 		await delay(5000);
 		process.exit(1);
 	}
 
-	let configPath = getConfigPath();
+	console.log(
+		SETUP_PREFIX,
+		`Compatible Python detected (${py_ver})! Proceeding...`
+	);
+
+	const configPath = getConfigPath();
 
 	if (!(await fs.existsSync(configPath + "config.json"))) {
-		console.log(
-			"\x1b[34m[Setup]\x1b[0m",
-			"No config file found! Creating one..."
-		);
+		console.log(SETUP_PREFIX, "No config file found! Creating one...");
 		createConfig();
 		await updateLegendary();
 	} else {
-		console.log(
-			"\x1b[34m[Setup]\x1b[0m",
-			"Config file found! Proceding..."
-		);
+		console.log(SETUP_PREFIX, "Config file found! Proceeding...");
 		await checkConfig();
 		checkForUpdateLegendary();
 	}
 
-	console.log("\x1b[34m[Setup]\x1b[0m", "Checking if a valid session exists!");
+	console.log(SETUP_PREFIX, "Checking if a valid session exists!");
 	await loginOntoLegendary();
 
-	console.log("\x1b[34m[Setup]\x1b[0m", `Loading cache...`);
+	console.log(SETUP_PREFIX, `Loading cache...`);
 	await loadCache();
-	console.log("\x1b[34m[Setup]\x1b[0m", `Finished loading cache...`);
+	console.log(SETUP_PREFIX, `Finished loading cache...`);
 
-	console.log("\x1b[36m[Info]\x1b[0m", `Checking for updates...`);
+	console.log(INFO_PREFIX, `Checking for updates...`);
 	const isThereAnUpdate = await isUpdateAvailable();
 	if (isThereAnUpdate)
 		console.log(
-			"\x1b[36m[Info]\x1b[0m",
+			INFO_PREFIX,
 			`A new update has been detected! (v${isThereAnUpdate})`
 		);
-	else
-		console.log("\x1b[36m[Info]\x1b[0m", `You are running the latest version!`);
+	else console.log(INFO_PREFIX, `You are running the latest version!`);
 
 	console.log(
-		"\x1b[34m[Setup]\x1b[0m",
+		SETUP_PREFIX,
 		"Setup completed! Starting app and clearing console..."
 	);
 	console.log("\n");
@@ -116,30 +108,39 @@ module.exports = async () => {
 async function updateLegendary() {
 	let legendary_log;
 	console.log(
-		"\x1b[34m[Setup]\x1b[0m",
+		SETUP_PREFIX,
 		"Checking if legendary is installed and updated..."
 	);
 	try {
-		legendary_log = cp.execSync("py -m pip install --upgrade legendary-gl", {
-			stdio: "pipe",
-		});
+		legendary_log = cp.execSync(
+			"py -m pip install --upgrade legendary-gl",
+			{
+				stdio: "pipe",
+			}
+		);
 	} catch (e) {
 		throw new Error(e);
 	}
 	if (legendary_log.toString().includes("Collecting legendary-gl"))
 		console.log(
-			"\x1b[34m[Setup]\x1b[0m",
-			"legendary got installed/updated! Proceding..."
+			SETUP_PREFIX,
+			"legendary got installed/updated! Proceeding..."
 		);
 	else
 		console.log(
-			"\x1b[34m[Setup]\x1b[0m",
-			"legendary was already updated! Proceding..."
+			SETUP_PREFIX,
+			"legendary was already updated! Proceeding..."
 		);
-	let legendary_ver = cp.execSync("legendary --version").toString().split('"');
+	let legendary_ver = cp
+		.execSync("legendary --version")
+		.toString()
+		.split('"');
 	console.log(
-		"\x1b[36m[Info]\x1b[0m",
-		"Detected legendary version: " + legendary_ver[1] + " | " + legendary_ver[3]
+		INFO_PREFIX,
+		"Detected legendary version: " +
+			legendary_ver[1] +
+			" | " +
+			legendary_ver[3]
 	);
 }
 
@@ -185,8 +186,7 @@ configObj.getConfig = async (returnConfigPath) => {
 function getConfigPath() {
 	let configPath;
 
-	if (getCompiled())
-		configPath = process.argv0.split("\\");
+	if (getCompiled()) configPath = process.argv0.split("\\");
 	else configPath = process.argv[1].split("\\");
 
 	configPath.pop();
@@ -203,7 +203,9 @@ async function checkConfig() {
 		configObj.setConfig("updateDetected", false);
 	}
 
-	if (Object.entries(config).length !== Object.entries(defaultConfig).length) {
+	if (
+		Object.entries(config).length !== Object.entries(defaultConfig).length
+	) {
 		let prevConfigs = [];
 		Object.entries(config).forEach((entry) => {
 			prevConfigs.push({
@@ -255,34 +257,30 @@ async function loadCache() {
 	removeFinishedDownloadsFromConfig();
 }
 
+const CACHE_PREFIX = `\x1b[36m[${Locale.get("CACHE")}]\x1b[0m`;
+
 global.startCaching = async () => {
-	console.log(
-		"\x1b[36m[Cache]\x1b[0m",
-		"(1/6) Caching installed games list..."
-	);
+	console.log(CACHE_PREFIX, "(1/6) Caching installed games list...");
 	await require("./utils/searchGames.js")("installed");
 
 	clearLastLine();
-	console.log("\x1b[36m[Cache]\x1b[0m", "(2/6) Caching owned games list...");
+	console.log(CACHE_PREFIX, "(2/6) Caching owned games list...");
 	await require("./utils/searchGames.js")("owned");
 
 	clearLastLine();
-	console.log(
-		"\x1b[36m[Cache]\x1b[0m",
-		"(3/6) Caching installed games logs..."
-	);
+	console.log(CACHE_PREFIX, "(3/6) Caching installed games logs...");
 	await require("./utils/getInstalledGames")();
 
 	clearLastLine();
-	console.log("\x1b[36m[Cache]\x1b[0m", "(4/6) Caching owned games logs...");
+	console.log(CACHE_PREFIX, "(4/6) Caching owned games logs...");
 	await require("./utils/getOwnedGames")();
 	clearLastLine();
 
-	console.log("\x1b[36m[Cache]\x1b[0m", "(5/6) Caching legendary-gl path...");
+	console.log(CACHE_PREFIX, "(5/6) Caching legendary-gl path...");
 	await require("./utils/getLegendaryPath")();
 	clearLastLine();
 
-	console.log("\x1b[36m[Cache]\x1b[0m", "(6/6) Saving cache...");
+	console.log(CACHE_PREFIX, "(6/6) Saving cache...");
 	writeCache();
 	clearLastLine();
 };
@@ -309,7 +307,9 @@ async function loginOntoLegendary() {
 		console.log(
 			"Follow these steps in order to login with your Epic Games Account:"
 		);
-		console.log("1. Login into Epic Games (A pop-up should have appeared).");
+		console.log(
+			"1. Login into Epic Games (A pop-up should have appeared)."
+		);
 		const authorizationCode = await inquirer
 			.prompt([
 				{
@@ -324,7 +324,8 @@ async function loginOntoLegendary() {
 					if (auth) return auth;
 					else throw new Error("Invalid JSON");
 				} catch (e) {
-					if (e.toString().startsWith("SyntaxError")) return a.authJson;
+					if (e.toString().startsWith("SyntaxError"))
+						return a.authJson;
 					if (e.toString().startsWith("Error: Invalid JSON")) {
 						console.log(
 							"\x1b[31m[Error]\x1b[0m JSON does not contains authorizationCode."
@@ -334,7 +335,9 @@ async function loginOntoLegendary() {
 					}
 				}
 			});
-		await cp.execSync(`legendary auth --code "${authorizationCode}"`, { stdio: "pipe" });
+		await cp.execSync(`legendary auth --code "${authorizationCode}"`, {
+			stdio: "pipe",
+		});
 		console.clear();
 	}
 	return alreadyLoggedIn;

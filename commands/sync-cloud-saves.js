@@ -1,15 +1,16 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
+const Locale = require("../locale");
 
 module.exports = async () => {
 	const confirm = await require("../utils/promptConfirmation")(
-		"sync your online saves"
+		Locale.get("ACTIONS.SYNC_ONLINE_SAVES")
 	);
 
 	if (!confirm) return console.log("Operation cancelled!");
 
 	const confirmCorrupted = require("../utils/promptConfirmation")(
-		"delete corrupted online saves"
+		Locale.get("ACTIONS.DELETE_CORRUPTED_ONLINE_SAVES")
 	);
 
 	console.log("Syncing online saves with Epic Online Services...");

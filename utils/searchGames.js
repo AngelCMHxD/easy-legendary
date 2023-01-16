@@ -1,6 +1,7 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
 const fuzzy = require("fuzzy");
+const Locale = require("../locale");
 
 module.exports = async (filter) => {
 	let games;
@@ -10,12 +11,16 @@ module.exports = async (filter) => {
 		case "installed":
 			games = cacheObj.installedGamesList;
 			sub = "list-installed";
-			save = (updated) => { cacheObj.installedGamesList = updated };
+			save = (updated) => {
+				cacheObj.installedGamesList = updated;
+			};
 			break;
 		case "owned":
-			games = cacheObj.installedGamesList;
+			games = cacheObj.ownedGamesList;
 			sub = "list-games";
-			save = (updated) => { cacheObj.ownedGamesList = updated };
+			save = (updated) => {
+				cacheObj.ownedGamesList = updated;
+			};
 			break;
 	}
 
@@ -51,8 +56,8 @@ module.exports = async (filter) => {
 		save(games);
 	}
 
-	if (!games.includes("Select this item to exit..."))
-		games.unshift("Select this item to exit...");
+	if (!games.includes(Locale.get("SELECT_THIS_ITEM_TO_EXIT")))
+		games.unshift(Locale.get("SELECT_THIS_ITEM_TO_EXIT"));
 
 	return function searchGames(answers, input) {
 		input = input || "";

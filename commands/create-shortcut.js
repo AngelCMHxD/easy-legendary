@@ -2,6 +2,7 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const cp = require("child_process");
 const createShortcut = require("create-desktop-shortcuts");
+const Locale = require("../locale");
 inquirer.registerPrompt(
 	"autocomplete",
 	require("inquirer-autocomplete-prompt")
@@ -28,16 +29,15 @@ module.exports = async () => {
 
 	const game = await require("../utils/promptGame")(
 		games,
-		"make a shortcut for"
+		Locale.get("ACTIONS.SHORTCUT")
 	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
-	console.log("Searching were is legendary-gl installed...");
-
+	console.log("Searching where legendary-gl is installed...");
 	const legendaryPath = await require("../utils/getLegendaryPath")();
 
-	console.log("Searching were is the game installed...");
+	console.log("Searching where the game is installed...");
 	const gameInfo = cp
 		.execSync(`legendary info "${game}"`, { stdio: "pipe" })
 		.toString()

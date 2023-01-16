@@ -1,16 +1,16 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
-inquirer.registerPrompt(
-	"autocomplete",
-	require("inquirer-autocomplete-prompt")
-);
+const Locale = require("../locale");
 
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("installed");
 
-	const game = await require("../utils/promptGame")(games, "move");
+	const game = await require("../utils/promptGame")(
+		games,
+		Locale.get("ACTIONS.MOVE")
+	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	let diskPath = await inquirer
 		.prompt([
@@ -30,7 +30,7 @@ module.exports = async () => {
 							if (matchRegex) return true;
 						}
 					}
-					return "Type a valid path";
+					return Locale.get("TYPE_A_VALID_PATH");
 				},
 			},
 		])
@@ -45,7 +45,7 @@ module.exports = async () => {
 	diskPathwGame = diskPathwGame.replaceAll("//", "/");
 
 	const confirm = await require("../utils/promptConfirmation")(
-		`move the game "${game}" to "${diskPathwGame}"`
+		Locale.get("MOVE_GAME_TO_PATH", game, diskPathwGame)
 	);
 
 	if (!confirm) {

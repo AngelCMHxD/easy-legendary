@@ -1,16 +1,16 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
-inquirer.registerPrompt(
-	"autocomplete",
-	require("inquirer-autocomplete-prompt")
-);
+const Locale = require("../locale");
 
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("owned");
 
-	const game = await require("../utils/promptGame")(games, "import");
+	const game = await require("../utils/promptGame")(
+		games,
+		Locale.get("ACTIONS.IMPORT")
+	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	let diskPath = await inquirer
 		.prompt([
@@ -24,7 +24,7 @@ module.exports = async () => {
 						let matchRegex = regex.test(val.replaceAll("/", "\\"));
 						if (matchRegex) return true;
 					}
-					return "Type a valid path";
+					return Locale.get("TYPE_A_VALID_PATH");
 				},
 			},
 		])
@@ -36,7 +36,7 @@ module.exports = async () => {
 		diskPath.split(":")[0].toUpperCase() + ":" + diskPath.split(":")[1];
 
 	const confirm = await require("../utils/promptConfirmation")(
-		`import the game "${game}", located in "${diskPath}"`
+		Locale.get("ACTIONS.IMPORT_GAME_IN_PATH", game, diskPath)
 	);
 
 	if (!confirm) {

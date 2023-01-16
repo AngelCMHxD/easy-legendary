@@ -1,47 +1,47 @@
 const setup = require("./setup");
 const inquirer = require("inquirer");
 const fuzzy = require("fuzzy");
+const Locale = require("./locale");
 inquirer.registerPrompt(
 	"autocomplete",
 	require("inquirer-autocomplete-prompt")
 );
-const commands = {
-	"list-owned-games": "List owned games...",
-	"list-installed-games": "List installed/imported games...",
-	"start-game": "Start a game...",
-	"install-game": "Install a game...",
-	"update-game": "Update a game...",
-	"import-game": "Import a installed game...",
-	"uninstall-game": "Uninstall a game...",
-	"browse-game-files": "Browse within game's files...",
-	"show-game-info": "Show info about a game...",
-	"sync-cloud-saves": "Sync cloud saves...",
-	"sync-with-egl": "Sync games with Epic Games Launcher...",
-	"verify-game-files": "Verify a game's files...",
-	"move-game": "Move a game to another folder...",
-	"create-shortcut": "Create a shortcut...",
-	"refresh-cache": "Refresh/Update the cache...",
-	"check-for-updates": "Check for updates...",
-	exit: "Exit",
+
+let commands = {
+	"list-owned-games": "LIST_OWNED_GAMES",
+	"list-installed-games": "LIST_INSTALLED_GAMES",
+	"start-game": "START_GAME",
+	"install-game": "INSTALL_GAME",
+	"update-game": "UPDATE_GAME",
+	"import-game": "IMPORT_GAME",
+	"uninstall-game": "UNINSTALL_GAME",
+	"browse-game-files": "BROWSE_GAME_FILES",
+	"show-game-info": "SHOW_GAME_INFO",
+	"sync-cloud-saves": "SYNC_CLOUD_SAVES",
+	"sync-with-egl": "SYNC_WITH_EGL",
+	"verify-game-files": "VERIFY_GAME_FILES",
+	"move-game": "MOVE_GAME",
+	"create-shortcut": "CREATE_SHORTCUT",
+	"refresh-cache": "REFRESH_CACHE",
+	"check-for-updates": "CHECK_FOR_UPDATES",
+	exit: "EXIT",
 };
 
-function searchCommands(answers, input) {
-	input = input || "";
-	return new Promise(function (resolve) {
-		const cmds = [];
-		Object.values(commands).forEach((cmd) => {
-			cmds.push(cmd);
-		});
-		var fuzzyResult = fuzzy.filter(input, cmds);
-		const results = fuzzyResult.map(function (rs) {
-			return rs.original;
-		});
+commands = Object.fromEntries(
+	// translate each command
+	Object.entries(commands).map((c) => [c[0], Locale.get(c[1]) + "..."])
+);
 
-		results.splice(cmds.length - 1, 0, new inquirer.Separator());
-		results.push(new inquirer.Separator());
-		results.unshift(new inquirer.Separator());
-		resolve(results);
-	});
+function searchCommands(_, input = "") {
+	const cmds = Object.values(commands);
+	var fuzzyResult = fuzzy.filter(input, cmds);
+	const results = fuzzyResult.map((rs) => rs.original);
+
+	results.splice(cmds.length - 1, 0, new inquirer.Separator());
+	results.push(new inquirer.Separator());
+	results.unshift(new inquirer.Separator());
+
+	return results;
 }
 
 async function promptReturn() {
@@ -50,25 +50,26 @@ async function promptReturn() {
 			name: "a",
 			type: "password",
 			mask: "",
-			message: "Press enter to return to main menu...",
+			message: Locale.get("PRESS_ENTER_TO_RETURN_TO_MAIN_MENU"),
 		},
 	]);
 }
 
 async function loop() {
-	console.log("\n\x1b[32m\x1b[1m -- Main menu --\x1b[0m");
+	console.log(`\n\x1b[32m\x1b[1m -- ${Locale.get("MAIN_MENU")} --\x1b[0m`);
 	const selected = await inquirer
 		.prompt([
 			{
 				type: "autocomplete",
 				source: searchCommands,
 				name: "action",
-				message: "Select what do you want to do:",
-				emptyText: "Nothing here!",
+				message: Locale.get("SELECT_ACTION"),
+				emptyText: Locale.get("EMPTY_PLACEHOLDER"),
+				suggestMessage: Locale.get("USE_ARROW_KEYS_OR_TYPE_TO_SEARCH"),
 				pageSize: 20,
 				loop: false,
 				validate: function (val) {
-					return val ? true : "Select a valid option!";
+					return val ? true : Locale.get("SELECT_VALID_OPTION");
 				},
 			},
 		])
@@ -86,10 +87,18 @@ async function loop() {
 }
 
 (async () => {
-	console.log(`\x1b[32m\x1b[1m -- Welcome to Easy Legendary --\x1b[0m`);
+	console.log(
+		`\x1b[32m\x1b[1m -- ${Locale.get(
+			"WELCOME",
+			Locale.get("APP_NAME")
+		)} --\x1b[0m`
+	);
 	if (getCompiled())
 		console.log(
-			"\x1b[36m[Info]\x1b[0m Uncompiled version of Easy Legendary detected. This build may be unstable."
+			`\x1b[36m[Info]\x1b[0m ${Locale.get(
+				"UNCOMPILED_VERSION_DETECTED",
+				Locale.get("APP_NAME")
+			)} ${Locale.get("UNSTABLE_BUILD_WARNING")}`
 		);
 
 	await setup();
@@ -97,7 +106,7 @@ async function loop() {
 })();
 
 process.on("uncaughtException", async (err) => {
-	console.log("\x1b[31m[ERROR]\x1b[0m");
+	console.log(`\x1b[31m[${Locale.get("ERROR")}]\x1b[0m`);
 	console.log(err);
 	await promptReturn();
 	console.clear();

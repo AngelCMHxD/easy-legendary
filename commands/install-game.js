@@ -1,5 +1,6 @@
 const cp = require("child_process");
 const PATH_REGEX = /^[a-zA-Z]:\\([^\\\/:*?"<>|]+\\)*\w*$/gm;
+const Locale = require("../locale");
 
 async function promptDiskPath() {
 	return inquirer
@@ -21,7 +22,7 @@ async function promptDiskPath() {
 							if (matched) return true;
 						}
 					}
-					return "Type a valid path";
+					return Locale.get("TYPE_A_VALID_PATH");
 				},
 			},
 		])
@@ -43,9 +44,12 @@ async function promptDiskPath() {
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("owned");
 
-	const game = await require("../utils/promptGame")(games, "install");
+	const game = await require("../utils/promptGame")(
+		games,
+		Locale.get("ACTIONS.INSTALL")
+	);
 
-	if (game === "Select this item to exit...") return;
+	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	let config = await configObj.getConfig();
 	let unfinishedDownload = false;
@@ -66,7 +70,7 @@ module.exports = async () => {
 	gamePath = gamePath.replaceAll("//", "/");
 
 	const confirm = await require("../utils/promptConfirmation")(
-		`install "${game}" in "${gamePath}"`
+		Locale.get("ACTIONS.INSTALL_GAME_IN_PATH", game, gamePath)
 	);
 
 	if (!confirm) return console.log("Installation cancelled!");
