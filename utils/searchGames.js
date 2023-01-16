@@ -13,7 +13,7 @@ module.exports = async (filter) => {
 			save = (updated) => { cacheObj.installedGamesList = updated };
 			break;
 		case "owned":
-			games = cacheObj.installedGamesList;
+			games = cacheObj.ownedGamesList;
 			sub = "list-games";
 			save = (updated) => { cacheObj.ownedGamesList = updated };
 			break;
