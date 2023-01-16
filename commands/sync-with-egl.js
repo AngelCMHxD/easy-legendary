@@ -4,7 +4,7 @@ const Locale = require("../locale");
 
 module.exports = async () => {
 	const confirm = await require("../utils/promptConfirmation")(
-		"sync games with Epic Games Launcher"
+		Locale.get("ACTIONS.SYNC_GAMES")
 	);
 
 	if (!confirm) {

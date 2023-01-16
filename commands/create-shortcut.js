@@ -29,7 +29,7 @@ module.exports = async () => {
 
 	const game = await require("../utils/promptGame")(
 		games,
-		Locale.get("MAKE_A_SHORTCUT_FOR")
+		Locale.get("ACTIONS.SHORTCUT")
 	);
 
 	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;

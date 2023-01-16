@@ -7,12 +7,26 @@ SELECT_VALID_OPTION: "Select a valid option!"
 EMPTY_PLACEHOLDER: "Nothing here!"
 SELECT_ACTION: "Select what do you want to do:"
 
-FIND_THE_FILES_OF: "find the files of"
-MAKE_A_SHORTCUT_FOR: "make a shortcut for"
-INSTALL_GAME_IN_PATH: 'install "{0}" in "{1}"'
-MOVE_GAME_TO_PATH: 'move the game "{0}" to "{1}"'
-SEE_INFO_FOR: "see info for"
-UPDATE_TO_VERSION: "update to {0}"
+ACTIONS:
+    START: "start"
+    IMPORT: "import"
+    IMPORT_GAME_IN_PATH: 'import the game "{0}", located in "{1}"'
+    INSTALL: "install"
+    INSTALL_GAME_IN_PATH: 'install "{0}" in "{1}"'
+    MOVE_GAME_TO_PATH: 'move the game "{0}" to "{1}"'
+    UNINSTALL: "uninstall"
+    UNINSTALL_GAME: "uninstall {0}"
+    UPDATE: "update"
+    MOVE: "move"
+    VERIFY: "verify the files of"
+    VERIFY_GAME: 'verify the files of "{0}"'
+    FIND: "find the files of"
+    SHORTCUT: "make a shortcut for"
+    INFO: "see info for"
+    UPDATE_TO_VERSION: "update to {0}"
+    SYNC_GAMES: "Sync games with the Epic Games Launcher"
+    SYNC_ONLINE_SAVES: "sync your online saves"
+    DELETE_CORRUPTED_ONLINE_SAVES: "delete corrupted online saves"
 
 LIST_OWNED_GAMES: "List owned games"
 LIST_INSTALLED_GAMES: "List installed/imported games"
@@ -67,4 +81,4 @@ USE_ARROW_KEYS_OR_TYPE_TO_SEARCH: "Use arrow keys or type to search"
 
 CHECKING_PYTHON_VERSION: "Checking python version..."
 TYPE_THE_NAME_OF_THE_GAME_YOU_WANT_TO_ACTION: "Type the name of the game you want to {0}"
-SELECT_A_vALID_GAME: "Select a valid game!"
+SELECT_A_VALID_GAME: "Select a valid game!"

@@ -5,7 +5,10 @@ const Locale = require("../locale");
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("installed");
 
-	const game = await require("../utils/promptGame")(games, "move");
+	const game = await require("../utils/promptGame")(
+		games,
+		Locale.get("ACTIONS.MOVE")
+	);
 
 	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 

@@ -6,10 +6,16 @@ const languageFolders = fs.readdirSync(localePath);
 const languages = {};
 const CURRENT_LANGUAGE = "es";
 
+function getDescendantProp(obj, desc) {
+	var arr = desc.split(".");
+	while (arr.length && (obj = obj[arr.shift()]));
+	return obj;
+}
+
 function get(loc, ...params) {
 	loc = loc.toUpperCase();
-	let msg = languages[CURRENT_LANGUAGE][loc];
-	if (!msg) msg = languages["en"][loc]; // fallback to english
+	let msg = getDescendantProp(languages[CURRENT_LANGUAGE], loc);
+	if (!msg) msg = getDescendantProp(languages["en"], loc); // fallback to english
 	if (!msg) return loc;
 	let i = 0;
 	for (const param of params) {

@@ -44,7 +44,10 @@ async function promptDiskPath() {
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("owned");
 
-	const game = await require("../utils/promptGame")(games, "install");
+	const game = await require("../utils/promptGame")(
+		games,
+		Locale.get("ACTIONS.INSTALL")
+	);
 
 	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
@@ -67,7 +70,7 @@ module.exports = async () => {
 	gamePath = gamePath.replaceAll("//", "/");
 
 	const confirm = await require("../utils/promptConfirmation")(
-		Locale.get("INSTALL_GAME_IN_PATH", game, gamePath)
+		Locale.get("ACTIONS.INSTALL_GAME_IN_PATH", game, gamePath)
 	);
 
 	if (!confirm) return console.log("Installation cancelled!");
