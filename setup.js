@@ -65,43 +65,51 @@ module.exports = async () => {
 
 	console.log(
 		SETUP_PREFIX,
-		`Compatible Python detected (${py_ver})! Proceeding...`
+		`${Locale.get(
+			"COMPATIBLE_PYTHON_VERSION_DETECTED"
+		)} (${py_ver})! ${Locale.get("PROCEEDING")}...`
 	);
 
 	const configPath = getConfigPath();
 
 	if (!(await fs.existsSync(configPath + "config.json"))) {
-		console.log(SETUP_PREFIX, "No config file found! Creating one...");
+		console.log(
+			SETUP_PREFIX,
+			Locale.get("CONFIG_FILE_NOT_FOUND_CREATING_IT")
+		);
 		createConfig();
 		await updateLegendary();
 	} else {
-		console.log(SETUP_PREFIX, "Config file found! Proceeding...");
+		console.log(
+			SETUP_PREFIX,
+			`${Locale.get("CONFIG_FILE_FOUND")} ${Locale.get("PROCEEDING")}...`
+		);
 		await checkConfig();
 		checkForUpdateLegendary();
 	}
 
-	console.log(SETUP_PREFIX, "Checking if a valid session exists!");
+	console.log(SETUP_PREFIX, Locale.get("CHECKING_SESSION") + "...");
 	await loginOntoLegendary();
 
-	console.log(SETUP_PREFIX, `Loading cache...`);
+	console.log(SETUP_PREFIX, Locale.get("LOADING_CACHE") + "...");
 	await loadCache();
-	console.log(SETUP_PREFIX, `Finished loading cache...`);
+	console.log(SETUP_PREFIX, Locale.get("FINISHED_LOADING_CACHE"));
 
-	console.log(INFO_PREFIX, `Checking for updates...`);
-	const isThereAnUpdate = await isUpdateAvailable();
-	if (isThereAnUpdate)
+	console.log(INFO_PREFIX, Locale.get("CHECKING_FOR_UPDATES") + "...");
+	const lastVersion = await isUpdateAvailable();
+	if (lastVersion)
 		console.log(
 			INFO_PREFIX,
-			`A new update has been detected! (v${isThereAnUpdate})`
+			Locale.get("UPDATE_DETECTED") + ` (v${lastVersion})`
 		);
-	else console.log(INFO_PREFIX, `You are running the latest version!`);
+	else console.log(INFO_PREFIX, Locale.get("RUNNING_LATEST_VERSION"));
 
 	console.log(
 		SETUP_PREFIX,
-		"Setup completed! Starting app and clearing console..."
+		Locale.get("SETUP_COMPLETED") + " " + Locale.get("STARTING_APP") + "..."
 	);
 	console.log("\n");
-	await delay(isThereAnUpdate ? 5000 : 1000);
+	await delay(lastVersion ? 5000 : 1000);
 	console.clear();
 };
 

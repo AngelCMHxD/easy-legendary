@@ -1,6 +1,7 @@
 const cp = require("child_process");
 const inquirer = require("inquirer");
 const Locale = require("../locale");
+const { surround } = require("../utils/stringUtils");
 
 module.exports = async () => {
 	const games = await require("../utils/searchGames.js")("installed");
@@ -13,7 +14,7 @@ module.exports = async () => {
 	if (game === Locale.get("SELECT_THIS_ITEM_TO_EXIT")) return;
 
 	const confirm = await require("../utils/promptConfirmation")(
-		`update "${game}"`
+		Locale.get("ACTIONS.UPDATE_GAME", game)
 	);
 
 	if (!confirm) {
@@ -34,7 +35,9 @@ module.exports = async () => {
 	// exit if folder is protected and is not elevated
 	if (!(await require("../utils/elevationCheck.js")(diskPath, game))) return;
 
-	console.log(`Updating "${game}" (${diskPath})...`);
+	console.log(
+		`${Locale.get("UPDATING_GAME", surround(game))} (${diskPath})...`
+	);
 	await cp.execSync(`legendary update "${game}" -y`, {
 		stdio: "inherit",
 	});

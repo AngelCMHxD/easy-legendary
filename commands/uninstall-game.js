@@ -21,9 +21,9 @@ module.exports = async () => {
 		return;
 	}
 
-	console.log(`Uninstalling ${game}...`);
+	console.log(Locale.get("UNINSTALLING_GAME", surround(game)));
 	await cp.execSync(`legendary uninstall "${game}" -y`, {
 		stdio: "pipe",
 	});
-	console.log("Game uninstalled!");
+	console.log(Locale.get("GAME_UNINSTALLED"));
 };

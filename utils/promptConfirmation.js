@@ -7,7 +7,10 @@ module.exports = async (action = "do this") => {
 			{
 				type: "confirm",
 				name: "confirm",
-				message: `Are you sure that you want to ${action}?`,
+				message: Locale.get(
+					"ARE_YOU_SURE_THAT_YOU_WANT_TO_ACTION",
+					action
+				),
 				default: true,
 			},
 		])

@@ -17,7 +17,7 @@ module.exports = async () => {
 	);
 
 	if (!confirm) {
-		console.log("Operation cancelled!");
+		console.log(Locale.get("OPERATION_CANCELLED"));
 		return;
 	}
 
