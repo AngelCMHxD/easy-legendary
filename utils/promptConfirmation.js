@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const Locale = require("../locale");
 
-module.exports = async (action = "do this") => {
+module.exports = async (action = Locale.get("DO_THIS")) => {
 	return inquirer
 		.prompt([
 			{

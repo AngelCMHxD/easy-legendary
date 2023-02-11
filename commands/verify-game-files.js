@@ -22,7 +22,9 @@ module.exports = async () => {
 	}
 
 	console.log(`Verifying game files of "${game}"...`);
-	const output = await cp.execSync(`legendary verify "${game}" -y`);
+	const output = await cp.execSync(`legendary verify "${game}" -y`, {
+		stdio: "pipe",
+	});
 	if (output.toString().includes("100.0%")) {
 		console.log(
 			`Finished verifying "${game}"! No corrupted/missing file(s) detected!`

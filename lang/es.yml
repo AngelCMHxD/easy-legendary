@@ -99,3 +99,5 @@ COMPATIBLE_PYTHON_VERSION_DETECTED: "Se ha detectado una versión compatible de 
 PROCEEDING: "Procediendo"
 CONFIG_FILE_FOUND: "¡Se ha encontrado el archivo de configuración!"
 CONFIG_FILE_NOT_FOUND_CREATING_ONE: "¡No se ha encontrado el archivo de configuración! Creándolo..."
+
+DO_THIS: "hacer esto"

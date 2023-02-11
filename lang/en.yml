@@ -97,3 +97,5 @@ COMPATIBLE_PYTHON_VERSION_DETECTED: "Compatible Python version detected"
 PROCEEDING: "Proceeding"
 CONFIG_FILE_FOUND: "Config file found!"
 CONFIG_FILE_NOT_FOUND_CREATING_IT: "No config file found! Creating it..."
+
+DO_THIS: "do this"
